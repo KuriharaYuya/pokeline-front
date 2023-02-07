@@ -7,4 +7,4 @@ services:
     ports:
       - "3000:3000"
     tty: true
-    command: bash -c "npm run dev"
+    command: bash 
