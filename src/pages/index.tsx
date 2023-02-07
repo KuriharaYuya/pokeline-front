@@ -7,11 +7,6 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  (async () => {
-    const { data } = await axios.get("http://localhost:3001/api/v1/users/test");
-    console.log(data);
-  })();
-
   return (
     <>
       <Head>
