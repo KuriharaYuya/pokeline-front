@@ -28,3 +28,17 @@ export const signUpWithGoogle = async () => {
     }
   });
 };
+
+export const signInWithGoogle = async () => {
+  await signInWithPopup(auth, provider);
+  const token = await getAccessToken();
+  return await fetchLogin(token).then((res) => res.data);
+};
+
+const fetchLogin = async (accessToken: string) => {
+  return await apiLocalhost.post("/sessions", { access_token: accessToken });
+};
+
+export const fetchLogout = async () => {
+  return await apiLocalhost.delete("/sessions").then((res) => res.data);
+};
