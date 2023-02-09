@@ -2,20 +2,32 @@ import Header from "@/components/common/header";
 import { requestLogout } from "@/features/auth";
 import "@/styles/globals.css";
 import { getCookie } from "@/utils/client";
-import axios from "axios";
+import { loginPath, singUpPath, timelinePath } from "@/utils/urls/client";
+import { apiLocalhost } from "@/utils/urls/server";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../redux/store";
 
-axios.defaults.withCredentials = true;
+apiLocalhost.defaults.withCredentials = true;
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
+  const router = useRouter();
+  const requireLoginPaths = [timelinePath];
+  const blockWhenLoggedInPaths = [singUpPath, loginPath];
+
+  if (typeof window !== "undefined") {
     const isLoggedIn = getCookie("logged_in");
     if (!isLoggedIn) requestLogout();
-  }, []);
+
+    if (!isLoggedIn && requireLoginPaths.includes(router.pathname)) {
+      Router.push(loginPath);
+    } else if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
+      Router.back();
+    }
+  }
+
   return (
     <>
       <Provider store={store}>
