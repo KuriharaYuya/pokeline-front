@@ -4,8 +4,7 @@ import React from "react";
 const Auth = () => {
   const onClickHandler = async () => {
     const user = await signUpWithGoogle();
-    console.log(user); //ここまでok
-    // ここで返却した値をreduxに投げるよ
+    // ここで返却した値をログインさせる。サーバーでログインまでやるよ。
   };
   return (
     <div>

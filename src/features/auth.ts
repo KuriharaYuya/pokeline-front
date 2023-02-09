@@ -1,3 +1,5 @@
+import { logoutSuccess } from "@/redux/reducers/auth";
+import store from "@/redux/store";
 import { apiLocalhost } from "@/utils/urls";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { provider } from "../libs/firebase/init";
@@ -36,9 +38,15 @@ export const signInWithGoogle = async () => {
 };
 
 const fetchLogin = async (accessToken: string) => {
-  return await apiLocalhost.post("/sessions", { access_token: accessToken });
+  return await apiLocalhost.post("/sessions", {
+    session: { access_token: accessToken },
+  });
 };
 
 export const fetchLogout = async () => {
   return await apiLocalhost.delete("/sessions").then((res) => res.data);
+};
+
+export const requestLogout = () => {
+  store.dispatch(logoutSuccess());
 };
