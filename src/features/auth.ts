@@ -1,6 +1,6 @@
 import { logoutSuccess } from "@/redux/reducers/auth";
 import store from "@/redux/store";
-import { apiLocalhost } from "@/utils/urls";
+import { apiLocalhost } from "@/utils/urls/server";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { provider } from "../libs/firebase/init";
 const auth = getAuth();
