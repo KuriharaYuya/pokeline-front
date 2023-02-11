@@ -50,9 +50,6 @@ const Index = () => {
 
   const [form, setForm] = useState({ name: "", comment: "" });
   const { register, handleSubmit, reset } = useForm<FieldValues>();
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
   const onSubmit = async (formData: any) => {
     const { title, desc } = formData as { title: string; desc: string };
 
