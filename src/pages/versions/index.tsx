@@ -8,11 +8,13 @@ import {
   Card,
   CardContent,
   Modal,
+  TextField,
   Typography,
 } from "@mui/material";
 import { border } from "@mui/system";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 const Index = () => {
@@ -46,16 +48,17 @@ const Index = () => {
     setSelectedPokemon(pokemon);
   };
 
-  // debug
-  // useEffect(() => {
-  //   selectedVersion?.data.pokemons.map((pokemon) => {
-  //     const { name, url } = pokemon;
-  //     console.log(name, url);
-  //   });
-  // }, [modalOpen]);
-  useEffect(() => {
-    console.log(selectedPokemon, "selectedPokemon");
-  }, [selectedPokemon]);
+  const [form, setForm] = useState({ name: "", comment: "" });
+  const { register, handleSubmit, reset } = useForm<FieldValues>();
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const onSubmit = async (formData: any) => {
+    const { title, desc } = formData as { title: string; desc: string };
+
+    console.log(title, desc, selectedPokemon, "data");
+    reset();
+  };
 
   return (
     <>
@@ -78,6 +81,17 @@ const Index = () => {
       })}
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <div style={{ padding: "1em" }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              placeholder="Title"
+              {...register("title", { required: true })}
+            />
+            <TextField
+              placeholder="Description"
+              {...register("desc", { required: true })}
+            />
+            {selectedPokemon && <Button type="submit">Submit</Button>}
+          </form>
           {selectedVersion && (
             <>
               <Typography variant="h5">{selectedVersion.name}</Typography>
@@ -90,8 +104,8 @@ const Index = () => {
                     onClick={() => handleSelectPokemon(pokemon)}
                   >
                     <Image
-                      width={150}
-                      height={150}
+                      width={80}
+                      height={80}
                       src={pokemon.image}
                       alt={pokemon.name}
                       style={
