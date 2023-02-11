@@ -33,7 +33,6 @@ const fetchGenerations = async (generationUrl: string) => {
     const image = pokemonFrontImgPath(pokemonId);
     return { name: pokemon.name, url: pokemon.url, pokemonId, image };
   });
-  console.log(starterPokemons);
   return { generation: { name: generationName }, pokemons: starterPokemons };
 };
 

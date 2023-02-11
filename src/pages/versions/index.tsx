@@ -1,8 +1,7 @@
 import { fetchVersionsData } from "@/features/pokemons";
 import { updateVersions } from "@/redux/reducers/versions";
 import { RootState } from "@/redux/store";
-import { Version } from "@/utils/types";
-import { pokeApi } from "@/utils/urls/pokeAPI";
+import { Pokemon, Version } from "@/utils/types";
 import {
   Box,
   Button,
@@ -11,6 +10,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import { border } from "@mui/system";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,15 +36,27 @@ const Index = () => {
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedVersion(undefined);
+    setSelectedPokemon(undefined);
+  };
+
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | undefined>(
+    undefined
+  );
+  const handleSelectPokemon = (pokemon: Pokemon) => {
+    setSelectedPokemon(pokemon);
   };
 
   // debug
+  // useEffect(() => {
+  //   selectedVersion?.data.pokemons.map((pokemon) => {
+  //     const { name, url } = pokemon;
+  //     console.log(name, url);
+  //   });
+  // }, [modalOpen]);
   useEffect(() => {
-    selectedVersion?.data.pokemons.map((pokemon) => {
-      const { name, url } = pokemon;
-      console.log(name, url);
-    });
-  }, [modalOpen]);
+    console.log(selectedPokemon, "selectedPokemon");
+  }, [selectedPokemon]);
+
   return (
     <>
       {versions?.map((version, index) => {
@@ -72,12 +84,23 @@ const Index = () => {
               <p>{selectedVersion.data.generation.name}</p>
               {selectedVersion.data.pokemons.map((pokemon, index) => {
                 return (
-                  <Box key={index} style={{ marginRight: "1em" }}>
+                  <Box
+                    key={index}
+                    style={{ marginRight: "1em" }}
+                    onClick={() => handleSelectPokemon(pokemon)}
+                  >
                     <Image
                       width={150}
                       height={150}
                       src={pokemon.image}
                       alt={pokemon.name}
+                      style={
+                        pokemon === selectedPokemon
+                          ? {
+                              border: "3px solid blue",
+                            }
+                          : {}
+                      }
                     />
                     <p>{pokemon.name}</p>
                   </Box>
