@@ -1,5 +1,9 @@
 import { Versions } from "@/utils/types";
-import { pokeApi, versionsPath } from "@/utils/urls/pokeAPI";
+import {
+  pokeApi,
+  pokemonFrontImgPath,
+  versionsPath,
+} from "@/utils/urls/pokeAPI";
 import axios from "axios";
 
 export const fetchVersionsData = async () => {
@@ -25,9 +29,17 @@ const fetchGenerations = async (generationUrl: string) => {
   const generationName = data.names.slice(-1)[0].name;
   const pokemons = data.pokemon_species as { name: string; url: string }[];
   const starterPokemons = pokemons.slice(0, 3).map((pokemon) => {
-    return { name: pokemon.name, url: pokemon.url };
+    const pokemonId = extractPokemonIdFromSpeciesUrl(pokemon.url);
+    const image = pokemonFrontImgPath(pokemonId);
+    return { name: pokemon.name, url: pokemon.url, pokemonId, image };
   });
+  console.log(starterPokemons);
   return { generation: { name: generationName }, pokemons: starterPokemons };
+};
+
+const extractPokemonIdFromSpeciesUrl = (url: string) => {
+  const index = url.lastIndexOf("/", url.lastIndexOf("/") - 1) + 1;
+  return parseInt(url.substring(index, url.length - 1));
 };
 
 // const fetchStarterPokemon = async () => {};

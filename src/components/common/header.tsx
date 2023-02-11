@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
   loginPath,
-  seriesPath,
+  versionsPath,
   singUpPath,
   timelinePath,
 } from "@/utils/urls/client";
@@ -34,7 +34,7 @@ const Header = () => {
   type MenuItems = { name: string; path: string }[];
   const appItems = [
     { name: "タイムライン", path: timelinePath },
-    { name: "作品一覧", path: seriesPath },
+    { name: "作品一覧", path: versionsPath },
   ];
   const [menuItems, setMenuItems] = useState<MenuItems | undefined>(appItems);
   useEffect(() => {
