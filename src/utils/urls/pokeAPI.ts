@@ -5,3 +5,6 @@ export const pokeApi = axios.create({
 });
 
 export const versionsPath = "/version-group?limit=30";
+
+export const pokemonFrontImgPath = (pokemonId: number) =>
+  `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
