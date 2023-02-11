@@ -1,10 +1,16 @@
 import { signUpWithGoogle } from "@/features/auth";
+import { loginSuccess } from "@/redux/reducers/auth";
+import { timelinePath } from "@/utils/urls/client";
+import Router from "next/router";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 const Auth = () => {
+  const dispatch = useDispatch();
   const onClickHandler = async () => {
     const user = await signUpWithGoogle();
-    // ここで返却した値をログインさせる。サーバーでログインまでやるよ。
+    dispatch(loginSuccess(user));
+    Router.push(timelinePath);
   };
   return (
     <div>
