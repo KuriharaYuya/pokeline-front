@@ -21,3 +21,14 @@ export type VersionObj = {
   generation: { name: string; url: string };
   pokemons: Pokemon[];
 };
+
+export type Post = {
+  pokemon_name: string;
+  version_name: string;
+  pokemon_image: string;
+  title: string;
+  content: string;
+  user_id: string;
+  user_img: string;
+  user_name: string;
+};
