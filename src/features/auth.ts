@@ -34,7 +34,12 @@ export const signUpWithGoogle = async () => {
 export const signInWithGoogle = async () => {
   await signInWithPopup(auth, provider);
   const token = await getAccessToken();
-  return await fetchLogin(token).then((res) => res.data);
+  try {
+    const res = await fetchLogin(token).then((res) => res);
+    return res.data;
+  } catch (error: any) {
+    return error.response.data.message as string;
+  }
 };
 
 const fetchLogin = async (accessToken: string) => {
