@@ -1,25 +1,42 @@
 import { signInWithGoogle } from "@/features/auth";
 import { loginSuccess } from "@/redux/reducers/auth";
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useState } from "react";
 import { RootState } from "@/redux/store";
 import { User } from "@/utils/types";
 import Router from "next/router";
 import { timelinePath } from "@/utils/urls/client";
+import { Alert, Snackbar } from "@mui/material";
 
 const Login = () => {
   const state = useSelector((state: RootState) => state);
-  const { isLoggedIn, currentUser } = state.authReducer;
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
   const clickLoginWithGoogleHandler = async () => {
     const { user } = (await signInWithGoogle()) as { user: User };
-    dispatch(loginSuccess(user));
-    Router.push(timelinePath);
+    if (user) {
+      dispatch(loginSuccess(user));
+      Router.push(timelinePath);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
     <div>
-      signIn
+      {open && (
+        <Alert severity="error">
+          <div>ユーザーが見つかりません</div>
+        </Alert>
+      )}
       <button onClick={clickLoginWithGoogleHandler}>
         Googleでログインする
       </button>
