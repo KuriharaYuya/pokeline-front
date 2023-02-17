@@ -60,6 +60,7 @@ const Index = () => {
         pokemon_name: selectedPokemon!.name,
         pokemon_image: selectedPokemon!.image,
         version_name: selectedVersion!.name,
+        generation_name: selectedVersion!.data.generation.name,
       },
     });
     if (status === 200) {
@@ -69,7 +70,7 @@ const Index = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: "90%", margin: "0 auto" }}>
       <div>
         {versions?.map((version, index) => {
           return (

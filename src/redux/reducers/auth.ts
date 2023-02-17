@@ -23,6 +23,12 @@ const authSlice = createSlice({
     logoutSuccess: (state) => {
       state.isLoggedIn = false;
       state.currentUser = undefined;
+      document.cookie =
+        "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "logged_in=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       localStorage.removeItem("persist:auth");
       return state;
     },

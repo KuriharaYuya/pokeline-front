@@ -1,0 +1,83 @@
+
+.postCard {
+    background-color:rgb(0, 30, 60) !important;
+    color: rgba(232, 230, 227, 0.87) !important;
+    border: 0.1rem solid #1f77ce;
+    width: 80%;
+    margin: 1rem auto;
+}
+.selectedPost {
+    background-color:rgb(0, 30, 60) !important;
+    color: rgba(232, 230, 227, 0.87) !important;
+    border: 0.3rem solid #38c6e0;
+    width: 80%;
+    margin: 1rem auto;
+}
+.postHeader {
+    margin: 1rem auto;
+    width: 90%;
+    text-align: center;
+    h2,h4 {
+        text-align: left;
+    }
+    h1 {
+        font-size: 30px;
+    }
+}
+
+.userContainer {
+    width: fit-content;
+    border-radius: 2rem !important;
+    margin-right: auto;
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+    color: rgba(232, 230, 227, 0.87) !important;
+    display: flex;
+    height: auto;
+    $img-size: 1.5rem;
+    img {
+        border-radius: 1rem;
+        height: $img-size;
+        width: $img-size;
+    }
+    span {
+     line-height: $img-size;
+     width: auto;
+    }
+    div {
+        width: auto;
+        display: flex;
+    }
+}
+
+.pokemonImageWrapper {
+    img {
+        display: block;
+        margin: 0 auto;
+        width: 30%;
+    height: 30%;
+    }
+    width: 100%;
+    background-color: gray;
+}
+
+.postContainer {
+    width: 90%;
+    h2 {
+        margin-bottom: 0.5rem;
+    }
+    margin: 1rem auto;
+}
+.IconWrapper {
+    margin-left: auto;
+    width: fit-content;
+    svg {
+        $iconSize: 2rem;
+        width: $iconSize;
+        height: $iconSize;
+        border-radius: 0.5rem;
+        margin-right: 0.7rem;
+        background-color: gray;
+        padding: 0.1rem;
+    }
+}
