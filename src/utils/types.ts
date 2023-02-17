@@ -32,4 +32,5 @@ export type Post = {
   user_id: string;
   user_img: string;
   user_name: string;
+  id: string;
 };
