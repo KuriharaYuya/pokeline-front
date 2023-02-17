@@ -19,21 +19,25 @@
 }
 
 .userContainer {
-    width: 90%;
-    margin: 0 auto;
+    width: fit-content;
+    border-radius: 2rem !important;
+    margin-right: auto;
+    margin-left: 2rem;
     margin-bottom: 0.5rem;
     display: flex;
     height: auto;
-    $img-size: 2rem;
+    $img-size: 1.5rem;
     img {
         border-radius: 1rem;
         height: $img-size;
         width: $img-size;
     }
-    p {
-     line-height: $img-size;   
+    span {
+     line-height: $img-size;
+     width: auto;
     }
     div {
+        width: auto;
         display: flex;
     }
 }

@@ -51,7 +51,7 @@ const TimeLine = () => {
                       width={100}
                       height={100}
                     />
-                    <p>{post.user_name} </p>
+                    <span>{post.user_name} </span>
                   </div>
                 </Alert>
 
