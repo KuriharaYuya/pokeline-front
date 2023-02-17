@@ -1,6 +1,9 @@
 .globalStyles {
     background-color: rgb(10, 25, 41);
-    height: 100vh;
+    height: auto;
     margin: 0;
     padding: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-bottom: 2rem;
 }

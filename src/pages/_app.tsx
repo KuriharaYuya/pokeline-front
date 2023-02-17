@@ -44,13 +44,13 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <section className={styles.globalStyles}>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Header />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Header />
+        <section className={styles.globalStyles}>
           <Component {...pageProps} />
-        </PersistGate>
-      </Provider>
-    </section>
+        </section>
+      </PersistGate>
+    </Provider>
   );
 }

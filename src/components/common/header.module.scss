@@ -1,6 +1,6 @@
 .header {
     background-color: rgb(20, 94, 168) !important;
-  }
+  
   
   .buttons {
     button {
@@ -11,3 +11,8 @@
       background-color: rgb(15, 38, 61);
     }
   }
+}
+.headerWrapper {
+  width: 100vw !important;
+  margin: 0 auto;
+}

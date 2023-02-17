@@ -79,7 +79,7 @@ const Header = () => {
   };
 
   return (
-    <>
+    <div className={styles.headerWrapper}>
       <ConfirmationModal
         handleClose={handleLogoutModalClose}
         confirmationTxt="ログアウトしますか？"
@@ -91,153 +91,157 @@ const Header = () => {
         style={{ backgroundColor: "red" }}
         className={styles.header}
       >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Poke Line
-            </Typography>
-            {isLoggedIn && (
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={() => handleCloseNavMenu()}
-                  sx={{
-                    display: { xs: "block", md: "none" },
-                  }}
-                >
-                  {menuItems
-                    ?.filter((item) => item.path !== pathname)
-                    .map((item, index) => (
-                      <MenuItem
-                        key={index}
-                        onClick={() => handleCloseNavMenu(item.path)}
-                      >
-                        <Typography textAlign="center">{item.name}</Typography>
+        <div className={styles.headerWrapper}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Poke Line
+              </Typography>
+              {isLoggedIn && (
+                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={() => handleCloseNavMenu()}
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                    }}
+                  >
+                    {menuItems
+                      ?.filter((item) => item.path !== pathname)
+                      .map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          onClick={() => handleCloseNavMenu(item.path)}
+                        >
+                          <Typography textAlign="center">
+                            {item.name}
+                          </Typography>
+                        </MenuItem>
+                      ))}
+                  </Menu>
+                </Box>
+              )}
+              <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+              <Typography
+                variant="h5"
+                noWrap
+                component="a"
+                sx={{
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  flexGrow: 1,
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Poke Line
+              </Typography>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {menuItems?.map((item, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => handleCloseNavMenu(item.path)}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {item.name}
+                  </Button>
+                ))}
+              </Box>
+              {isLoggedIn ? (
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open menu">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar alt="dummy" src={currentUser?.picture} />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography
+                          textAlign="center"
+                          onClick={handleLogoutModalOpen}
+                        >
+                          {setting}
+                        </Typography>
                       </MenuItem>
                     ))}
-                </Menu>
-              </Box>
-            )}
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Poke Line
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {menuItems?.map((item, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleCloseNavMenu(item.path)}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  </Menu>
+                </Box>
+              ) : (
+                <Box
+                  sx={{ display: { xs: "flex", md: "flex" } }}
+                  className={styles.buttons}
                 >
-                  {item.name}
-                </Button>
-              ))}
-            </Box>
-            {isLoggedIn ? (
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open menu">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="dummy" src={currentUser?.picture} />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography
-                        textAlign="center"
-                        onClick={handleLogoutModalOpen}
-                      >
-                        {setting}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            ) : (
-              <Box
-                sx={{ display: { xs: "flex", md: "flex" } }}
-                className={styles.buttons}
-              >
-                {pathname !== loginPath && (
-                  <Button onClick={() => Router.push(loginPath)}>
-                    ログイン
-                  </Button>
-                )}
-                {pathname !== singUpPath && (
-                  <Button onClick={() => Router.push(singUpPath)}>
-                    サインアップ
-                  </Button>
-                )}
-              </Box>
-            )}
-          </Toolbar>
-        </Container>
+                  {pathname !== loginPath && (
+                    <Button onClick={() => Router.push(loginPath)}>
+                      ログイン
+                    </Button>
+                  )}
+                  {pathname !== singUpPath && (
+                    <Button onClick={() => Router.push(singUpPath)}>
+                      サインアップ
+                    </Button>
+                  )}
+                </Box>
+              )}
+            </Toolbar>
+          </Container>
+        </div>
       </AppBar>
-    </>
+    </div>
   );
 };
 
