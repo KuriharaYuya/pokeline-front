@@ -3,29 +3,37 @@ import { Post } from "@/utils/types";
 import { apiLocalhost } from "@/utils/urls/server";
 import { Alert, Card, CardActionArea, Snackbar } from "@mui/material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../components/timeline/timeline.module.scss";
 import { RootState } from "@/redux/store";
+import { updatePosts, updateSelectedPost } from "@/redux/reducers/posts";
 
 const TimeLine = () => {
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state: RootState) => state.authReducer);
-  const [posts, setPosts] = useState<Post[] | undefined>(undefined);
-  const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
+  const { posts, selectedPost } = useSelector(
+    (state: RootState) => state.postsReducer
+  );
+
   useEffect(() => {
     (async () => {
       const { posts } = await apiLocalhost
         .get("/posts")
         .then((res) => res.data);
-      setPosts(posts);
+      dispatch(updatePosts(posts));
     })();
   }, []);
 
   const handlePostSelect = (post: Post) => {
-    setSelectedPost(post);
+    if (selectedPost.post?.id === post.id) return;
+    dispatch(updateSelectedPost({ post, editing: false }));
   };
   const handleClickMessageIcon = () => console.log("yes");
-  const handleClickEditIcon = () => {};
+  const handleClickEditIcon = () => {
+    if (selectedPost.post === undefined) return;
+    dispatch(updateSelectedPost({ ...selectedPost, editing: true }));
+  };
   const handleClickDeleteIcon = () => {};
   const actionIconsFuncs = {
     handleClickMessageIcon,
@@ -41,17 +49,20 @@ const TimeLine = () => {
             <Card
               key={index}
               className={
-                post.id === selectedPost?.id
+                post.id === selectedPost.post?.id
                   ? styles.selectedPost
                   : styles.postCard
               }
               onClick={() => handlePostSelect(post)}
             >
-              {post.id === selectedPost?.id && (
-                <ActionIcons
-                  {...actionIconsFuncs}
-                  createdByCurrentUser={post.user_id === currentUser?.id}
-                />
+              {post.id === selectedPost.post?.id && (
+                <>
+                  <ActionIcons
+                    {...actionIconsFuncs}
+                    createdByCurrentUser={post.user_id === currentUser?.id}
+                  />
+                  {selectedPost.editing === true && "aaa"}
+                </>
               )}
               <CardActionArea>
                 <div className={styles.pokemonImageWrapper}>
