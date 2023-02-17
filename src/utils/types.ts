@@ -25,6 +25,7 @@ export type VersionObj = {
 export type Post = {
   pokemon_name: string;
   version_name: string;
+  generation_name: string;
   pokemon_image: string;
   title: string;
   content: string;
