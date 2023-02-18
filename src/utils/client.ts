@@ -9,3 +9,9 @@ export const getCookie = (name: string): string | undefined => {
   }
   return undefined;
 };
+
+export const dateTimeFormat = (isoDateStr: string) => {
+  const time = new Date(isoDateStr).toLocaleTimeString();
+  const date = new Date(isoDateStr).toLocaleDateString();
+  return `${date} ${time}`;
+};

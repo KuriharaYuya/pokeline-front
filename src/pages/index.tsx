@@ -4,6 +4,7 @@ import { apiLocalhost } from "@/utils/urls/server";
 import {
   Alert,
   Card,
+  Divider,
   Snackbar,
   TextareaAutosize,
   TextField,
@@ -16,6 +17,7 @@ import styles from "../components/timeline/timeline.module.scss";
 import { RootState } from "@/redux/store";
 import { updatePosts, updateSelectedPost } from "@/redux/reducers/posts";
 import ConfirmationModal from "@/components/common/confirmationModal";
+import Comments from "@/components/timeline/comments";
 
 const TimeLine = () => {
   const dispatch = useDispatch();
@@ -29,15 +31,34 @@ const TimeLine = () => {
       const { posts } = await apiLocalhost
         .get("/posts")
         .then((res) => res.data);
+      console.log(posts);
       dispatch(updatePosts(posts));
     })();
   }, []);
+
+  useEffect(() => {
+    const updatedSelectedPost = posts?.find((post) => {
+      post.id === selectedPost.post?.id;
+      return post;
+    });
+    dispatch(
+      updateSelectedPost({
+        post: updatedSelectedPost,
+        editing: selectedPost.editing,
+      })
+    );
+  }, [posts]);
 
   const handlePostSelect = (post: Post) => {
     if (selectedPost.post?.id === post.id) return;
     dispatch(updateSelectedPost({ post, editing: false }));
   };
-  const handleClickMessageIcon = () => console.log("yes");
+  const [commentingPost, setCommentingPost] = useState<Post | undefined>(
+    undefined
+  );
+  const handleClickMessageIcon = () => {
+    setCommentingPost(selectedPost.post);
+  };
   const handleClickEditIcon = () => {
     if (selectedPost.post === undefined) return;
     dispatch(updateSelectedPost({ ...selectedPost, editing: true }));
@@ -65,7 +86,13 @@ const TimeLine = () => {
       }
     });
     dispatch(updatePosts(updatedPosts));
-    dispatch(updateSelectedPost({ ...selectedPost, editing: false }));
+    dispatch(
+      updateSelectedPost({
+        ...selectedPost,
+        editing: false,
+        post: post,
+      })
+    );
   };
   const [open, setOpen] = useState(false);
   const handleDeleteModalOpen = () => {
@@ -173,6 +200,8 @@ const TimeLine = () => {
                   </>
                 )}
               </div>
+              <Divider />
+              {commentingPost?.id === post.id && <Comments />}
             </Card>
           );
         })
