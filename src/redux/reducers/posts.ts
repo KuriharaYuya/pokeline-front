@@ -16,6 +16,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     updatePosts: (state, actions) => {
+      console.log(actions.payload, "イエス");
       state.posts = actions.payload;
       return state;
     },

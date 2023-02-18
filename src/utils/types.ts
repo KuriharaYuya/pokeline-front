@@ -22,6 +22,14 @@ export type VersionObj = {
   pokemons: Pokemon[];
 };
 
+export type Comment = {
+  id: string;
+  content: string;
+  user_id: string;
+  user_name: string;
+  user_img: string;
+  created_at: string;
+};
 export type Post = {
   pokemon_name: string;
   version_name: string;
@@ -33,4 +41,5 @@ export type Post = {
   user_img: string;
   user_name: string;
   id: string;
+  comments: Comment[] | undefined;
 };
