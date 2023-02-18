@@ -21,7 +21,6 @@ const postsSlice = createSlice({
       return state;
     },
     updateSelectedPost: (state, actions) => {
-      console.log(actions.payload, "あはは");
       state.selectedPost = actions.payload;
       return state;
     },
