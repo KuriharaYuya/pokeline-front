@@ -3,7 +3,7 @@
     color: rgba(232, 230, 227, 0.87) !important;
     border: 0.1rem solid #1f77ce;
     width: 80%;
-    margin: 1rem auto;
+    margin: 1rem auto !important;
     cursor: pointer;
     &:hover {
         border: 0.2rem solid #7dc3dc;
@@ -26,7 +26,7 @@
         margin-left: auto;
     }
     text-align: center;
-    width: 50%;
+    width: 80vh;
     height: fit-content;
     border: 0.5rem solid rgb(56, 133, 138);
     margin: auto;
