@@ -117,10 +117,9 @@ const TimeLine = () => {
     dispatch(updatePosts([...posts!, ...morePosts]));
   };
   useEffect(() => {
-    const updatedSelectedPost = posts?.find((post) => {
-      post.id === selectedPost.post?.id;
-      return post;
-    });
+    const updatedSelectedPost = posts?.find(
+      (post) => post.id === selectedPost.post?.id
+    );
     dispatch(
       updateSelectedPost({
         post: updatedSelectedPost,
@@ -174,6 +173,7 @@ const TimeLine = () => {
                           createdByCurrentUser={
                             post.user_id === currentUser?.id
                           }
+                          commentsLength={post.comments_length}
                         />
                       </>
                     )}

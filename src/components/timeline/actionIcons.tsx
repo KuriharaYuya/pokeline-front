@@ -2,7 +2,7 @@ import React from "react";
 import MessageIcon from "@mui/icons-material/Message";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton } from "@mui/material";
+import { Badge, IconButton } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
 import styles from "./timeline.module.scss";
 
@@ -11,6 +11,7 @@ type Props = {
   handleClickEditIcon: () => void;
   handleClickDeleteIcon: () => void;
   createdByCurrentUser: boolean;
+  commentsLength: number;
 };
 
 const ActionIcons = ({
@@ -18,6 +19,7 @@ const ActionIcons = ({
   handleClickEditIcon,
   handleClickDeleteIcon,
   createdByCurrentUser,
+  commentsLength,
 }: Props) => {
   return (
     <div className={styles.IconWrapper}>
@@ -25,7 +27,9 @@ const ActionIcons = ({
         onClick={handleClickMessageIcon}
         sx={{ ":hover": { color: blue[500] } }}
       >
-        <MessageIcon />
+        <Badge badgeContent={commentsLength} color="primary">
+          <MessageIcon />
+        </Badge>
       </IconButton>
       {createdByCurrentUser && (
         <>

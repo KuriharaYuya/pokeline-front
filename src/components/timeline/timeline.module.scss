@@ -76,17 +76,9 @@
     margin: 1rem auto;
 }
 .IconWrapper {
+    margin: 1rem;
     margin-left: auto;
     width: fit-content;
-    svg {
-        $iconSize: 2rem;
-        width: $iconSize;
-        height: $iconSize;
-        border-radius: 0.5rem;
-        margin-right: 0.7rem;
-        background-color: gray;
-        padding: 0.1rem;
-    }
 }
 
 .postFormWrapper {
