@@ -86,18 +86,36 @@ const Index = ({ versions }: Props) => {
               onClick={() => handleOpenModal(version)}
             >
               <CardContent>
-                <Typography variant="h5">{version.name}</Typography>
-                <p>{version.data.generation.name}</p>
-                {version.data.pokemons.map((pokemon, index) => {
-                  return <p key={index}>{pokemon.name}</p>;
-                })}
+                <Typography variant="h5" className={styles.versionName}>
+                  {version.name}
+                </Typography>
+                <p className={styles.generationName}>
+                  {version.data.generation.name}
+                </p>
+                <div className={styles.pokemonsWrapper}>
+                  {version.data.pokemons.map((pokemon, index) => {
+                    return (
+                      <div key={index} className={styles.pokemonWrapper}>
+                        <Image
+                          height={40}
+                          width={40}
+                          src={pokemon.image}
+                          alt={pokemon.name}
+                        />
+                        <p>{pokemon.name}</p>
+                      </div>
+                    );
+                  })}
+                </div>
                 <p>
                   {version.data.generation?.regions.map((region, index) => {
                     return (
                       <>
                         {version.data.generation?.regions.length > 1 &&
                           index !== 0 && <span>&nbsp;&nbsp;</span>}
-                        <span key={index}>{region?.name}</span>
+                        <span key={index} className={styles.versionName}>
+                          {region?.name}
+                        </span>
                       </>
                     );
                   })}

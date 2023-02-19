@@ -11,6 +11,33 @@
         // 少し小さくする
         transform: scale(0.99);
     }
+    .versionName,
+    .generationName {
+        padding-bottom: 0.5rem;
+        border-bottom: 0.1rem solid gray;
+        width: fit-content;
+        margin-bottom: 1rem;
+    }
+    .pokemonsWrapper {
+        display: flex;
+    }
+    .pokemonWrapper {
+        display: flex;
+        $image-sizing: 2rem;
+        height: $image-sizing;
+        line-height: $image-sizing;
+        width: fit-content;
+        padding-right: 1rem;
+        border: 0.1rem solid #1f77ce;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+
+        img {
+            width: $image-sizing;
+            height: $image-sizing;
+        }
+    }
 }
 
 .createPostModal {
