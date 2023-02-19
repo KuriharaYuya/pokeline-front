@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const versionsSlice = createSlice({
   name: "versions",
-  initialState: { versions: undefined } as { versions: Versions },
+  initialState: { versions: null } as { versions: Versions },
   reducers: {
     updateVersions: (state, action) => {
       state.versions = action.payload;

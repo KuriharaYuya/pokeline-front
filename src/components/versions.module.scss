@@ -1,0 +1,79 @@
+.versionCard {
+    background-color: rgb(0, 30, 60) !important;
+    color: rgba(232, 230, 227, 0.87) !important;
+    border: 0.1rem solid #1f77ce;
+    width: 80%;
+    margin: 1rem auto !important;
+    cursor: pointer;
+    &:hover {
+        border: 0.2rem solid #7dc3dc;
+        background-color: rgb(26, 62, 98) !important;
+        // 少し小さくする
+        transform: scale(0.99);
+    }
+}
+
+.createPostModal {
+    padding-bottom: 2rem;
+    overflow: scroll;
+    button {
+        margin-left: auto;
+        display: block;
+        background-color: #1f77ce;
+        border: 0.1rem solid #1f77ce;
+        color: #fff;
+        margin: 1rem;
+        margin-left: auto;
+    }
+    text-align: center;
+    width: 80vh;
+    height: fit-content;
+    border: 0.5rem solid rgb(56, 133, 138);
+    margin: auto;
+    background-color: rgb(0, 30, 60) !important;
+    color: rgba(232, 230, 227, 0.87) !important;
+    .starterPokemonsWrapper {
+        margin: 0 auto;
+        margin-top: 2rem;
+        display: flex;
+        .starterPokemon {
+            margin: 0 auto;
+            img {
+                margin: 0 auto;
+                display: block;
+            }
+            .starterPokemonImg {
+                border: 0.1rem solid #1f77ce;
+                background-color: rgb(14, 54, 94) !important;
+            }
+        }
+    }
+    .createPostForm {
+        margin-top: 3rem;
+        .createPostFormContent,
+        .createPostFormTitle {
+            resize: none;
+            display: block;
+            margin: 0 auto;
+            margin-top: 1.5rem;
+            width: 80%;
+            border: 0.1rem solid #1f77ce;
+            background-color: rgb(26, 62, 98) !important;
+        }
+        .createPostFormTitle {
+            display: block;
+            height: 3rem;
+        }
+        .createPostFormContent {
+            min-height: 5rem;
+        }
+        button {
+            margin: 0 auto;
+            margin-top: 1rem;
+        }
+        .createPostFormSubmitBtn {
+            margin-bottom: 2rem;
+            display: block;
+        }
+    }
+}

@@ -6,7 +6,7 @@ import {
   TextareaAutosize,
   Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./timeline.module.scss";
 import SendIcon from "@mui/icons-material/Send";
@@ -71,7 +71,14 @@ const Comments = () => {
     handleClose();
     dispatch(updatePosts(updatedPosts));
   };
-  const [hasMore, setHasMore] = useState(true);
+  useEffect(() => {
+    if (selectedPost.post?.comments?.length! > 10) {
+      setHasMore(true);
+    } else {
+      setHasMore(false);
+    }
+  }, [selectedPost.post?.comments]);
+  const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
   const loadComments = async () => {
     const { comments }: { comments: Comment[] } = await apiLocalhost

@@ -25,7 +25,6 @@ const ScrollTop = (props: Props) => {
     const anchor = (
       (event.target as HTMLDivElement).ownerDocument || document
     ).querySelector("#back-to-top-anchor");
-    console.log(2);
     if (anchor) {
       anchor.scrollIntoView({
         block: "center",

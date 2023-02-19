@@ -8,3 +8,7 @@ services:
       - "3000:3000"
     tty: true
     command: bash 
+networks:
+  default:
+    external:
+      name: pokeline-network

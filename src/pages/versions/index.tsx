@@ -1,6 +1,4 @@
 import { fetchVersionsData } from "@/features/pokemons";
-import { updateVersions } from "@/redux/reducers/versions";
-import { RootState } from "@/redux/store";
 import { Pokemon, Version } from "@/utils/types";
 import { timelinePath } from "@/utils/urls/client";
 import { apiLocalhost } from "@/utils/urls/server";
@@ -10,28 +8,35 @@ import {
   Card,
   CardContent,
   Modal,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
+import { spawn } from "child_process";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import styles from "../../components/versions.module.scss";
 
-const Index = () => {
-  const dispatch = useDispatch();
-  const { versions } = useSelector((state: RootState) => state.versionsReducer);
+export const getStaticProps: GetStaticProps = async () => {
+  const versions = await fetchVersionsData();
+  console.log(versions.map((version) => version.data.generation));
+  return {
+    props: {
+      versions,
+    },
+  };
+};
+type Props = {
+  versions: Version[];
+};
+const Index = ({ versions }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<Version | undefined>(
     undefined
   );
-  useEffect(() => {
-    (async () => {
-      const versions = await fetchVersionsData();
-      dispatch(updateVersions(versions));
-    })();
-  }, []);
   const handleOpenModal = (version: Version) => {
     setModalOpen(true);
     setSelectedVersion(version);
@@ -77,6 +82,7 @@ const Index = () => {
             <Card
               key={index}
               style={{ margin: "1em" }}
+              className={styles.versionCard}
               onClick={() => handleOpenModal(version)}
             >
               <CardContent>
@@ -85,6 +91,17 @@ const Index = () => {
                 {version.data.pokemons.map((pokemon, index) => {
                   return <p key={index}>{pokemon.name}</p>;
                 })}
+                <p>
+                  {version.data.generation?.regions.map((region, index) => {
+                    return (
+                      <>
+                        {version.data.generation?.regions.length > 1 &&
+                          index !== 0 && <span>&nbsp;&nbsp;</span>}
+                        <span key={index}>{region?.name}</span>
+                      </>
+                    );
+                  })}
+                </p>
               </CardContent>
             </Card>
           );
@@ -94,59 +111,61 @@ const Index = () => {
       <Modal
         open={modalOpen}
         onClose={handleCloseModal}
-        style={{
-          width: "500px",
-          height: "500px",
-          backgroundColor: "red",
-          border: "3px solid blue",
-          margin: "auto",
-        }}
+        className={styles.createPostModal}
       >
-        <div style={{ padding: "auto" }}>
+        <>
           <Button onClick={handleCloseModal}>Close</Button>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
-              placeholder="Title"
-              {...register("title", { required: true })}
-            />
-            <TextField
-              placeholder="Description"
-              {...register("content", { required: true })}
-            />
-            {selectedPokemon && <Button type="submit">Submit</Button>}
-          </form>
           {selectedVersion && (
             <>
               <Typography variant="h5">{selectedVersion.name}</Typography>
               <p>{selectedVersion.data.generation.name}</p>
-              {selectedVersion.data.pokemons.map((pokemon, index) => {
-                return (
-                  <Box
-                    key={index}
-                    style={{ marginRight: "1em" }}
-                    onClick={() => handleSelectPokemon(pokemon)}
-                  >
-                    <Image
-                      width={80}
-                      height={80}
-                      src={pokemon.image}
-                      alt={pokemon.name}
-                      style={
-                        pokemon === selectedPokemon
-                          ? {
-                              border: "3px solid blue",
-                              backgroundColor: "black",
-                            }
-                          : { backgroundColor: "black" }
-                      }
-                    />
-                    <p>{pokemon.name}</p>
-                  </Box>
-                );
-              })}
+              <div className={styles.starterPokemonsWrapper}>
+                {selectedVersion.data.pokemons.map((pokemon, index) => {
+                  return (
+                    <Box
+                      key={index}
+                      onClick={() => handleSelectPokemon(pokemon)}
+                      className={styles.starterPokemon}
+                    >
+                      <Image
+                        width={120}
+                        height={120}
+                        src={pokemon.image}
+                        alt={pokemon.name}
+                        className={
+                          pokemon === selectedPokemon
+                            ? styles.starterPokemonImg
+                            : styles.starterPokemonImgSelected
+                        }
+                      />
+                      <p>{pokemon.name}</p>
+                    </Box>
+                  );
+                })}
+              </div>
             </>
           )}
-        </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles.createPostForm}
+          >
+            <input
+              placeholder="Title"
+              {...register("title", { required: true })}
+              className={styles.createPostFormTitle}
+            />
+            <TextareaAutosize
+              placeholder="Description"
+              {...register("content", { required: true })}
+              className={styles.createPostFormContent}
+            />
+            {selectedPokemon && (
+              <Button type="submit" className={styles.createPostFormSubmitBtn}>
+                Submit
+              </Button>
+            )}
+          </form>
+        </>
       </Modal>
     </div>
   );
