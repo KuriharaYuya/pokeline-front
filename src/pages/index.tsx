@@ -5,6 +5,7 @@ import {
   Alert,
   Card,
   Divider,
+  Fab,
   Snackbar,
   TextareaAutosize,
   TextField,
@@ -19,6 +20,8 @@ import { updatePosts, updateSelectedPost } from "@/redux/reducers/posts";
 import ConfirmationModal from "@/components/common/confirmationModal";
 import Comments from "@/components/timeline/comments";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ScrollTop from "@/components/timeline/scrollTop";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const TimeLine = () => {
   const dispatch = useDispatch();
@@ -131,109 +134,124 @@ const TimeLine = () => {
   }, [posts]);
 
   return (
-    <div style={{ width: "90%", margin: "0 auto" }}>
-      <ConfirmationModal
-        handleClose={handleDeleteModalClose}
-        confirmationTxt="本当にこの投稿を削除しますか？"
-        execFunc={deletePost}
-        open={open}
-      />
-      {posts && posts.length > 0 ? (
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={loadComments}
-          hasMore={hasMore}
-          endMessage={
-            <h2 style={{ textAlign: "center" }}>これ以上投稿はありません</h2>
-          }
-          loader={<h4 style={{ textAlign: "center" }}>読み込み中</h4>}
-        >
-          {posts.map((post, index) => {
-            return (
-              <Card
-                key={index}
-                className={
-                  post.id === selectedPost.post?.id
-                    ? styles.selectedPost
-                    : styles.postCard
-                }
-                onClick={() => handlePostSelect(post)}
-              >
-                {post.id === selectedPost.post?.id && (
-                  <>
-                    <ActionIcons
-                      {...actionIconsFuncs}
-                      createdByCurrentUser={post.user_id === currentUser?.id}
-                    />
-                  </>
-                )}
-                <div className={styles.pokemonImageWrapper}>
-                  <Image
-                    className={styles.pokemonImage}
-                    src={post.pokemon_image}
-                    alt={post.pokemon_name}
-                    width={100}
-                    height={100}
-                  />
-                </div>
-                <div className={styles.postHeader}>
-                  <h1>{post.pokemon_name}</h1>
-                  <h2 className={styles.test}>{post.version_name}</h2>
-                  <h4>{post.generation_name}</h4>
-                </div>
-
-                <Alert
-                  className={styles.userContainer}
-                  icon={false}
-                  variant="outlined"
-                  severity="info"
-                >
-                  <div>
-                    <Image
-                      src={post.user_img}
-                      alt={post.user_name}
-                      width={100}
-                      height={100}
-                    />
-                    <span>{post.user_name} </span>
-                  </div>
-                </Alert>
-                <div className={styles.postContainer}>
-                  {selectedPost.post?.id === post.id && selectedPost.editing ? (
-                    <div className={styles.postFormWrapper}>
-                      <form onSubmit={handleSubmit(onSubmit)}>
-                        <button>編集を完了する</button>
-                        <TextField
-                          id="filled-basic"
-                          label="タイトル"
-                          variant="filled"
-                          type="text"
-                          defaultValue={selectedPost.post?.title}
-                          {...register("title", { required: true })}
+    <>
+      <div style={{ width: "90%", margin: "0 auto" }}>
+        <ConfirmationModal
+          handleClose={handleDeleteModalClose}
+          confirmationTxt="本当にこの投稿を削除しますか？"
+          execFunc={deletePost}
+          open={open}
+        />
+        {posts && posts.length > 0 ? (
+          <div className={styles.cardsWrapper}>
+            <InfiniteScroll
+              dataLength={posts.length}
+              next={loadComments}
+              hasMore={hasMore}
+              endMessage={
+                <h2 style={{ textAlign: "center" }}>
+                  これ以上投稿はありません
+                </h2>
+              }
+              loader={<h4 style={{ textAlign: "center" }}>読み込み中</h4>}
+            >
+              {posts.map((post, index) => {
+                return (
+                  <Card
+                    id="back-to-top-anchor"
+                    key={index}
+                    className={
+                      post.id === selectedPost.post?.id
+                        ? styles.selectedPost
+                        : styles.postCard
+                    }
+                    onClick={() => handlePostSelect(post)}
+                  >
+                    {post.id === selectedPost.post?.id && (
+                      <>
+                        <ActionIcons
+                          {...actionIconsFuncs}
+                          createdByCurrentUser={
+                            post.user_id === currentUser?.id
+                          }
                         />
-                        <TextareaAutosize
-                          defaultValue={selectedPost.post?.content}
-                          {...register("content", { required: true })}
-                        />
-                      </form>
+                      </>
+                    )}
+                    <div className={styles.pokemonImageWrapper}>
+                      <Image
+                        className={styles.pokemonImage}
+                        src={post.pokemon_image}
+                        alt={post.pokemon_name}
+                        width={100}
+                        height={100}
+                      />
                     </div>
-                  ) : (
-                    <>
-                      <h2>{post.title}</h2>
-                      <p>{post.content}</p>
-                    </>
-                  )}
-                </div>
-                <Divider />
-                {commentingPost?.id === post.id && <Comments />}
-              </Card>
-            );
-          })}
-        </InfiniteScroll>
-      ) : (
-        <Snackbar open={true} message="投稿がありません" />
-      )}
-    </div>
+                    <div className={styles.postHeader}>
+                      <h1>{post.pokemon_name}</h1>
+                      <h2 className={styles.test}>{post.version_name}</h2>
+                      <h4>{post.generation_name}</h4>
+                    </div>
+
+                    <Alert
+                      className={styles.userContainer}
+                      icon={false}
+                      variant="outlined"
+                      severity="info"
+                    >
+                      <div>
+                        <Image
+                          src={post.user_img}
+                          alt={post.user_name}
+                          width={100}
+                          height={100}
+                        />
+                        <span>{post.user_name} </span>
+                      </div>
+                    </Alert>
+                    <div className={styles.postContainer}>
+                      {selectedPost.post?.id === post.id &&
+                      selectedPost.editing ? (
+                        <div className={styles.postFormWrapper}>
+                          <form onSubmit={handleSubmit(onSubmit)}>
+                            <button>編集を完了する</button>
+                            <TextField
+                              id="filled-basic"
+                              label="タイトル"
+                              variant="filled"
+                              type="text"
+                              defaultValue={selectedPost.post?.title}
+                              {...register("title", { required: true })}
+                            />
+                            <TextareaAutosize
+                              defaultValue={selectedPost.post?.content}
+                              {...register("content", { required: true })}
+                            />
+                          </form>
+                        </div>
+                      ) : (
+                        <>
+                          <h2>{post.title}</h2>
+                          <p>{post.content}</p>
+                        </>
+                      )}
+                    </div>
+                    <Divider />
+                    {commentingPost?.id === post.id && <Comments />}
+                  </Card>
+                );
+              })}
+            </InfiniteScroll>
+          </div>
+        ) : (
+          <Snackbar open={true} message="投稿がありません" />
+        )}
+      </div>
+      <ScrollTop>
+        <Fab size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+    </>
   );
 };
 
