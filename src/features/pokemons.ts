@@ -5,13 +5,20 @@ import {
   versionsPath,
 } from "@/utils/urls/pokeAPI";
 import axios from "axios";
-
 export const fetchVersionsData = async () => {
   const versions = (await fetchVersions()) as Versions;
   const versionsWithGeneration = await Promise.all(
     versions!.map(async (version) => {
+      const regionsJpName = await getRegionWithVersion(version.url);
       const generationUrl = (await axios.get(version.url)).data.generation.url;
-      const generation = await fetchGenerations(generationUrl);
+      const generationInfo = await fetchGenerations(generationUrl);
+      const generation = {
+        ...generationInfo,
+        generation: {
+          name: generationInfo.generation.name,
+          regions: regionsJpName,
+        },
+      };
       const updatedData = { ...version, data: generation };
       return updatedData;
     })
@@ -52,4 +59,24 @@ const getPokemonJpName = async (pokemonUrl: string) => {
   const { data } = await axios.get(pokemonUrl);
   const jpName = data.names[0].name;
   return jpName;
+};
+
+const getRegionWithVersion = async (versionUrl: string) => {
+  const data = (await axios.get(versionUrl).then((res) => res.data)) as {
+    regions: { url: string }[];
+  };
+  const regionNameJp = await Promise.all(
+    data.regions.map(async (region: { url: string }) => {
+      const { data }: { data: { names: { name: string }[] } } = await axios.get(
+        region.url
+      );
+      try {
+        return { name: data.names[0].name };
+      } catch {
+        return;
+      }
+    })
+  );
+
+  return regionNameJp;
 };

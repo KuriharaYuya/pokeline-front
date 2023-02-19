@@ -29,6 +29,7 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       const versions = await fetchVersionsData();
+      console.log(versions);
       dispatch(updateVersions(versions));
     })();
   }, []);
@@ -84,6 +85,9 @@ const Index = () => {
                 <p>{version.data.generation.name}</p>
                 {version.data.pokemons.map((pokemon, index) => {
                   return <p key={index}>{pokemon.name}</p>;
+                })}
+                {version.data.generation.regions.map((pokemon, index) => {
+                  return <p key={index}>{pokemon?.name}</p>;
                 })}
               </CardContent>
             </Card>

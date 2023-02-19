@@ -18,7 +18,11 @@ export type Pokemon = {
   image: string;
 };
 export type VersionObj = {
-  generation: { name: string; url: string };
+  generation: {
+    name: string;
+    url: string;
+    regions: { name: string | undefined }[];
+  };
   pokemons: Pokemon[];
 };
 
