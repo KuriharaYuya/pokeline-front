@@ -73,7 +73,7 @@ const getRegionWithVersion = async (versionUrl: string) => {
       try {
         return { name: data.names[0].name };
       } catch {
-        return;
+        return null;
       }
     })
   );

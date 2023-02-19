@@ -5,7 +5,7 @@ export type User = {
   picture: string;
 };
 
-export type Versions = Version[] | undefined;
+export type Versions = Version[] | null;
 export type Version = {
   name: string;
   url: string;
@@ -21,7 +21,7 @@ export type VersionObj = {
   generation: {
     name: string;
     url: string;
-    regions: { name: string | undefined }[];
+    regions: { name: string | null }[];
   };
   pokemons: Pokemon[];
 };
@@ -45,5 +45,5 @@ export type Post = {
   user_img: string;
   user_name: string;
   id: string;
-  comments: Comment[] | undefined;
+  comments: Comment[] | null;
 };

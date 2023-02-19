@@ -1,6 +1,4 @@
 import { fetchVersionsData } from "@/features/pokemons";
-import { updateVersions } from "@/redux/reducers/versions";
-import { RootState } from "@/redux/store";
 import { Pokemon, Version } from "@/utils/types";
 import { timelinePath } from "@/utils/urls/client";
 import { apiLocalhost } from "@/utils/urls/server";
@@ -13,26 +11,28 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-
-const Index = () => {
-  const dispatch = useDispatch();
-  const { versions } = useSelector((state: RootState) => state.versionsReducer);
+export const getStaticProps: GetStaticProps = async () => {
+  const versions = await fetchVersionsData();
+  console.log(versions.map((version) => version.data.generation));
+  return {
+    props: {
+      versions,
+    },
+  };
+};
+type Props = {
+  versions: Version[];
+};
+const Index = ({ versions }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<Version | undefined>(
     undefined
   );
-  useEffect(() => {
-    (async () => {
-      const versions = await fetchVersionsData();
-      console.log(versions);
-      dispatch(updateVersions(versions));
-    })();
-  }, []);
   const handleOpenModal = (version: Version) => {
     setModalOpen(true);
     setSelectedVersion(version);
@@ -86,7 +86,7 @@ const Index = () => {
                 {version.data.pokemons.map((pokemon, index) => {
                   return <p key={index}>{pokemon.name}</p>;
                 })}
-                {version.data.generation.regions.map((pokemon, index) => {
+                {version.data.generation?.regions.map((pokemon, index) => {
                   return <p key={index}>{pokemon?.name}</p>;
                 })}
               </CardContent>
