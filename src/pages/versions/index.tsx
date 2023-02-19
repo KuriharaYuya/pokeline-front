@@ -22,7 +22,6 @@ import styles from "../../components/versions.module.scss";
 
 export const getStaticProps: GetStaticProps = async () => {
   const versions = await fetchVersionsData();
-  console.log(versions.map((version) => version.data.generation));
   return {
     props: {
       versions,

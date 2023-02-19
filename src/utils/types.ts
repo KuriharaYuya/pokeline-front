@@ -46,4 +46,5 @@ export type Post = {
   user_name: string;
   id: string;
   comments: Comment[] | null;
+  comments_length: number;
 };

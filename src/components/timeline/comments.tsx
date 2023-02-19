@@ -1,12 +1,13 @@
 import {
   Card,
+  CircularProgress,
   IconButton,
   Menu,
   MenuItem,
   TextareaAutosize,
   Tooltip,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./timeline.module.scss";
 import SendIcon from "@mui/icons-material/Send";
@@ -17,7 +18,6 @@ import { updatePosts } from "@/redux/reducers/posts";
 import Image from "next/image";
 import { dateTimeFormat } from "@/utils/client";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 const Comments = () => {
   const { selectedPost, posts } = useSelector(
@@ -71,14 +71,36 @@ const Comments = () => {
     handleClose();
     dispatch(updatePosts(updatedPosts));
   };
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   useEffect(() => {
-    if (selectedPost.post?.comments?.length! > 10) {
-      setHasMore(true);
-    } else {
-      setHasMore(false);
+    const handleScroll = () => {
+      const position = window.pageYOffset;
+      setScrollPosition(position);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    if (commentsEndRef.current) {
+      const topPosition = commentsEndRef.current.offsetTop;
+      const windowHeight = window.innerHeight;
+      const thirtyPercentOfWindowHeight = windowHeight * 0.3;
+      if (
+        topPosition - thirtyPercentOfWindowHeight < scrollPosition &&
+        hasMore
+      ) {
+        setIsLoading(true);
+        (async () => await loadComments())();
+      } else if (topPosition - windowHeight * 0.1 < scrollPosition) {
+        // 画面上部10%までrefがスクロールされたなら、refをnullにする
+        commentsEndRef.current = null;
+      }
     }
-  }, [selectedPost.post?.comments]);
-  const [hasMore, setHasMore] = useState(false);
+  }, [scrollPosition]);
+  const commentsEndRef = useRef<HTMLDivElement | null>(null);
+  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const loadComments = async () => {
     const { comments }: { comments: Comment[] } = await apiLocalhost
@@ -86,7 +108,7 @@ const Comments = () => {
         params: { post_id: selectedPost.post?.id },
       })
       .then((res) => res.data);
-    if (comments.length < 11) {
+    if (comments.length < 10) {
       setHasMore(false);
     }
     setPage(page + 1);
@@ -98,65 +120,72 @@ const Comments = () => {
         return post;
       }
     });
+    setIsLoading(false);
     dispatch(updatePosts(updatedPosts));
   };
+
   return (
     <>
-      <InfiniteScroll
-        dataLength={selectedPost.post?.comments?.length!}
-        next={loadComments}
-        hasMore={hasMore}
-        loader={<h4 style={{ textAlign: "center" }}>読み込み中</h4>}
-      >
-        {selectedPost.post?.comments?.map((comment, index) => {
-          return (
-            <Card className={styles.commentCard} key={index}>
-              <div className={styles.commentUserWrapper}>
-                <Image
-                  src={comment.user_img}
-                  alt={comment.user_name}
-                  width={100}
-                  height={100}
-                />
-                <span>{comment.user_name}</span>
-                <span>{dateTimeFormat(comment.created_at)}</span>
-              </div>
-              {currentUser?.id === comment.user_id && (
-                <div className={styles.menuIcon}>
-                  <Tooltip title="Open menu">
-                    <IconButton sx={{ p: 0 }} onClick={handleClick}>
-                      <MoreHorizIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    id="demo-positioned-menu"
-                    aria-labelledby="demo-positioned-button"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                  >
-                    <MenuItem
-                      onClick={() => handleDeleteComment(comment.id)}
-                      className={styles.confirmation}
-                    >
-                      削除する
-                    </MenuItem>
-                  </Menu>
-                </div>
-              )}
-              <p>{comment.content}</p>
-            </Card>
-          );
-        })}
-      </InfiniteScroll>
+      {selectedPost.post?.comments && (
+        <>
+          {selectedPost.post?.comments?.map((comment, index) => {
+            return (
+              <>
+                <Card
+                  ref={commentsEndRef}
+                  className={styles.commentCard}
+                  key={index}
+                >
+                  <div className={styles.commentUserWrapper}>
+                    <Image
+                      src={comment.user_img}
+                      alt={comment.user_name}
+                      width={100}
+                      height={100}
+                    />
+                    <span>{comment.user_name}</span>
+                    <span>{dateTimeFormat(comment.created_at)}</span>
+                  </div>
+                  {currentUser?.id === comment.user_id && (
+                    <div className={styles.menuIcon}>
+                      <Tooltip title="Open menu">
+                        <IconButton sx={{ p: 0 }} onClick={handleClick}>
+                          <MoreHorizIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        id="demo-positioned-menu"
+                        aria-labelledby="demo-positioned-button"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "left",
+                        }}
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "left",
+                        }}
+                      >
+                        <MenuItem
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className={styles.confirmation}
+                        >
+                          削除する
+                        </MenuItem>
+                      </Menu>
+                    </div>
+                  )}
+                  <p>{comment.content}</p>
+                </Card>
+                {isLoading && <CircularProgress />}
+              </>
+            );
+          })}
+        </>
+      )}
+
       <form
         onSubmit={handleSubmit(onSubmitComment)}
         className={styles.commentFormContainer}
