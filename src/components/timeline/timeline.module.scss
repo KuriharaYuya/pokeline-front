@@ -1,13 +1,15 @@
-
+.cardsWrapper {
+    margin-top: 4rem;
+}
 .postCard {
-    background-color:rgb(0, 30, 60) !important;
+    background-color: rgb(0, 30, 60) !important;
     color: rgba(232, 230, 227, 0.87) !important;
     border: 0.1rem solid #1f77ce;
     width: 80%;
     margin: 1rem auto;
 }
 .selectedPost {
-    background-color:rgb(0, 30, 60) !important;
+    background-color: rgb(0, 30, 60) !important;
     color: rgba(232, 230, 227, 0.87) !important;
     border: 0.3rem solid #38c6e0;
     width: 80%;
@@ -17,7 +19,8 @@
     margin: 1rem auto;
     width: 90%;
     text-align: center;
-    h2,h4 {
+    h2,
+    h4 {
         text-align: left;
     }
     h1 {
@@ -41,8 +44,8 @@
         width: $img-size;
     }
     span {
-     line-height: $img-size;
-     width: auto;
+        line-height: $img-size;
+        width: auto;
     }
     div {
         width: auto;
@@ -55,7 +58,7 @@
         display: block;
         margin: 0 auto;
         width: 30%;
-    height: 30%;
+        height: 30%;
     }
     width: 100%;
     background-color: gray;
@@ -86,9 +89,10 @@
     form {
         :nth-child(2) {
             margin-bottom: 2rem;
-            color:  #fff;
+            color: #fff;
         }
-        div , textarea {
+        div,
+        textarea {
             display: block;
         }
         textarea {
@@ -97,7 +101,6 @@
             background-color: rgb(0, 30, 60) !important;
         }
     }
-    
 }
 
 .commentFormContainer {
@@ -105,7 +108,7 @@
     height: auto !important;
     textarea {
         margin: 1rem;
-        border:  0.1rem solid gray !important;
+        border: 0.1rem solid gray !important;
         border-radius: 0.7rem;
         width: 90%;
         margin-right: auto;
@@ -126,10 +129,10 @@
     }
 }
 .commentUserWrapper {
-    color: #fff ;
-  :nth-child(3) {
-    margin-left: 1rem;
-  }
+    color: #fff;
+    :nth-child(3) {
+        margin-left: 1rem;
+    }
     width: fit-content;
     border-radius: 2rem !important;
     margin-right: auto;
@@ -144,8 +147,8 @@
         width: $img-size;
     }
     span {
-     line-height: $img-size;
-     width: auto;
+        line-height: $img-size;
+        width: auto;
     }
     div {
         width: auto;
@@ -153,16 +156,16 @@
     }
 }
 .commentCard {
-  padding: 1rem;
-  background-color: rgb(0, 30, 60) !important;
+    padding: 1rem;
+    background-color: rgb(0, 30, 60) !important;
     p {
-        color: #e7e1e1 ;
-      margin: 1rem auto;
-      margin-left: 2rem;
-      padding: 0.2rem;
-      padding-left: 2rem;
-      border-radius: 1rem;
-      background-color: rgb(90, 106, 123);
+        color: #e7e1e1;
+        margin: 1rem auto;
+        margin-left: 2rem;
+        padding: 0.2rem;
+        padding-left: 2rem;
+        border-radius: 1rem;
+        background-color: rgb(90, 106, 123);
     }
 }
 .menuIcon {
@@ -176,4 +179,7 @@
     .confirmation {
         top: 0;
     }
+}
+.scrollTop {
+    right: 40%;
 }
