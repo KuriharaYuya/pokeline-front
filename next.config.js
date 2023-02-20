@@ -1,6 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: [
+      "raw.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "robohash.org",
+    ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://pokeline-yuya-back.herokuapp.com/:path*",
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -24,23 +39,6 @@ const nextConfig = {
       },
     ];
   },
-  images: {
-    domains: [
-      "raw.githubusercontent.com",
-      "lh3.googleusercontent.com",
-      "robohash.org",
-    ],
-  },
 };
 
 module.exports = nextConfig;
-module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://pokeline-yuya-back.herokuapp.com/:path*",
-      },
-    ];
-  },
-};
