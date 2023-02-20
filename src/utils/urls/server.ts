@@ -15,4 +15,7 @@ const serverUrl = () => {
 };
 export const apiLocalhost = axios.create({
   baseURL: serverUrl(),
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
 });

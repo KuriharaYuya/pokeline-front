@@ -8,11 +8,12 @@ import Router from "next/router";
 import { timelinePath } from "@/utils/urls/client";
 import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
+import { apiLocalhost } from "@/utils/urls/server";
 
 const Login = () => {
   useEffect(() => {
     (async () => {
-      const res = await fetch(
+      const res = await apiLocalhost.get(
         "https://pokeline-yuya-back.herokuapp.com/api/v1/posts"
       );
       console.log(res);
