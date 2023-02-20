@@ -48,3 +48,20 @@ export type Post = {
   comments: Comment[] | null;
   comments_length: number;
 };
+
+export type NotificationWithComment = {
+  id: string;
+  comment_id: string | null;
+  post_id: string;
+  visitor_name: string;
+  visitor_img: string;
+  comment_content: string;
+  checked: boolean;
+  created_at: string;
+  post_title: string;
+};
+
+export type NotificationWithComments = {
+  notifications: NotificationWithComment[];
+  notifications_length: number;
+};

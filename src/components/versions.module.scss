@@ -42,7 +42,13 @@
 
 .createPostModal {
     padding-bottom: 2rem;
-    overflow: scroll;
+    text-align: center;
+    width: 80vh;
+    height: fit-content;
+    border: 0.5rem solid rgb(56, 133, 138);
+    margin: auto;
+    background-color: rgb(0, 30, 60) !important;
+    color: rgba(232, 230, 227, 0.87) !important;
     button {
         margin-left: auto;
         display: block;
@@ -52,13 +58,6 @@
         margin: 1rem;
         margin-left: auto;
     }
-    text-align: center;
-    width: 80vh;
-    height: fit-content;
-    border: 0.5rem solid rgb(56, 133, 138);
-    margin: auto;
-    background-color: rgb(0, 30, 60) !important;
-    color: rgba(232, 230, 227, 0.87) !important;
     .starterPokemonsWrapper {
         margin: 0 auto;
         margin-top: 2rem;

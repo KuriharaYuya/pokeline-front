@@ -1,0 +1,68 @@
+.header {
+  background-color: rgb(20, 94, 168) !important;
+  .buttons {
+    button {
+      font-size: 0.7em;
+    }
+    & button:nth-child(1) {
+      color: rgb(97, 184, 255);
+      background-color: rgb(15, 38, 61);
+    }
+  }
+}
+.headerWrapper {
+  width: 100vw !important;
+  margin: 0 auto;
+  background-color: rgb(20, 94, 168) !important;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+}
+.NotificationBadgeWrapper {
+  padding: 1rem;
+  box-sizing: content-box;
+  svg {
+    color: #fff;
+  }
+}
+.notificationModal {
+  padding-bottom: 2rem;
+  text-align: center;
+  width: 30vh;
+  margin-top: 4rem;
+  border-radius: 2rem;
+  height: fit-content;
+  max-height: 90%;
+  overflow-y: scroll;
+  display: block;
+  border: 0.1rem solid #7dc3dc;
+  margin-left: auto;
+  margin-right: 4rem;
+  background-color: rgb(24, 62, 99) !important;
+  color: rgba(232, 230, 227, 0.87) !important;
+  opacity: 80;
+  z-index: 100;
+  .notificationWrapper {
+    border: 0.1rem solid #03a9f4;
+    margin: 1rem;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    .visitorProfile {
+      border: 0.1rem solid #03a9f4;
+      width: fit-content;
+      margin-left: 1rem;
+      border-radius: 1rem;
+      padding: 0.1rem;
+      height: 3rem;
+      padding-right: 1rem;
+      display: flex;
+      img {
+        margin: auto 0;
+        display: block;
+      }
+      span {
+        line-height: 3rem;
+      }
+    }
+  }
+}
