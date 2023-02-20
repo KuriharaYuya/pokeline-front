@@ -24,7 +24,13 @@ import {
 } from "@/utils/urls/client";
 import { fetchLogout } from "@/features/auth";
 import { logoutSuccess } from "@/redux/reducers/auth";
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "../confirmationModal";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge, Card, Modal } from "@mui/material";
+import { apiLocalhost } from "@/utils/urls/server";
+import { NotificationWithComment } from "@/utils/types";
+import Image from "next/image";
+import { dateTimeFormat } from "@/utils/client";
 const Header = () => {
   const { isLoggedIn, currentUser } = useSelector(
     (state: RootState) => state.authReducer
@@ -44,6 +50,26 @@ const Header = () => {
       setMenuItems(undefined);
     }
   }, [isLoggedIn]);
+  const [notifications, setNotifications] = useState<NotificationWithComment[]>(
+    []
+  );
+  const [uncheckNotificationsLength, setUncheckNotificationsLength] =
+    useState(0);
+  useEffect(() => {
+    if (isLoggedIn) {
+      (async () => {
+        type Props = {
+          notifications: NotificationWithComment[];
+          unchecks: number;
+        };
+        const { notifications, unchecks }: Props = await apiLocalhost
+          .get("/notifications")
+          .then((res) => res.data);
+        setNotifications(notifications);
+        setUncheckNotificationsLength(unchecks);
+      })();
+    }
+  }, []);
   const settings = ["Logout"];
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -76,6 +102,10 @@ const Header = () => {
     dispatch(logoutSuccess());
     handleLogoutModalClose();
     Router.push(loginPath);
+  };
+  const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+  const handleCloseNotificationModal = () => {
+    setNotificationModalOpen(false);
   };
 
   return (
@@ -185,41 +215,91 @@ const Header = () => {
                   </Button>
                 ))}
               </Box>
-              {isLoggedIn ? (
-                <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Open menu">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="dummy" src={currentUser?.picture} />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
+              {isLoggedIn && currentUser ? (
+                <>
+                  <div className={styles.NotificationBadgeWrapper}>
+                    <Button onClick={() => setNotificationModalOpen(true)}>
+                      <Badge
+                        badgeContent={uncheckNotificationsLength}
+                        color="primary"
+                      >
+                        <NotificationsIcon />
+                      </Badge>
+                    </Button>
+                  </div>
+                  <Modal
+                    open={notificationModalOpen}
+                    onClose={handleCloseNotificationModal}
+                    className={styles.notificationModal}
                   >
-                    {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography
-                          textAlign="center"
-                          onClick={handleLogoutModalOpen}
-                        >
-                          {setting}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </Box>
+                    <>
+                      {notifications.map((notification, index) => {
+                        return (
+                          <Card
+                            key={index}
+                            className={styles.notificationWrapper}
+                          >
+                            <p>{dateTimeFormat(notification.created_at)}</p>
+                            <div className={styles.visitorProfile}>
+                              <Image
+                                width={30}
+                                height={30}
+                                src={notification.visitor_img}
+                                alt={notification.visitor_name}
+                              />
+                              <span>{notification.visitor_name}</span>
+                            </div>
+                            あなたの投稿にコメントしました。
+                            <p>{notification.comment_content}</p>
+                            <div className={styles.postPreView}>
+                              <Image
+                                width={30}
+                                height={30}
+                                src={currentUser.picture}
+                                alt={currentUser.name}
+                              />
+                              {notification.post_title}
+                            </div>
+                          </Card>
+                        );
+                      })}
+                    </>
+                  </Modal>
+                  <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open menu">
+                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        <Avatar alt="dummy" src={currentUser?.picture} />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: "45px" }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      {settings.map((setting) => (
+                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                          <Typography
+                            textAlign="center"
+                            onClick={handleLogoutModalOpen}
+                          >
+                            {setting}
+                          </Typography>
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </Box>
+                </>
               ) : (
                 <Box
                   sx={{ display: { xs: "flex", md: "flex" } }}

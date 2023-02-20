@@ -1,4 +1,4 @@
-import Header from "@/components/common/header";
+import Header from "@/components/common/header/header";
 import { requestLogout } from "@/features/auth";
 import "@/styles/globals.css";
 import { getCookie } from "@/utils/client";
