@@ -30,18 +30,18 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }
   );
-  if (typeof window !== "undefined") {
-    const isLoggedIn = getCookie("logged_in");
-    if (!isLoggedIn) {
-      requestLogout();
-    }
+  // if (typeof window !== "undefined") {
+  //   const isLoggedIn = getCookie("logged_in");
+  //   if (!isLoggedIn) {
+  //     requestLogout();
+  //   }
 
-    if (!isLoggedIn && requireLoginPaths.includes(router.pathname)) {
-      Router.push(loginPath);
-    } else if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
-      // Router.back();
-    }
-  }
+  //   if (!isLoggedIn && requireLoginPaths.includes(router.pathname)) {
+  //     Router.push(loginPath);
+  //   } else if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
+  //     // Router.back();
+  //   }
+  // }
 
   return (
     <Provider store={store}>
