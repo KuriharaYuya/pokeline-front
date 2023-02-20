@@ -18,4 +18,5 @@ export const apiLocalhost = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "https://poke-line.vercel.app",
   },
+  withCredentials: true,
 });

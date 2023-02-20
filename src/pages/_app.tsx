@@ -18,18 +18,18 @@ export default function App({ Component, pageProps }: AppProps) {
   const requireLoginPaths = [timelinePath];
   const blockWhenLoggedInPaths = [singUpPath, loginPath];
 
-  apiLocalhost.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response.status === 401) {
-        // 401エラーの処理
-        requestLogout();
-        location.reload();
-      }
-    }
-  );
+  // // apiLocalhost.interceptors.response.use(
+  // //   (response) => {
+  // //     return response;
+  // //   },
+  // //   (error) => {
+  // //     if (error.response.status === 401) {
+  // //       // 401エラーの処理
+  // //       requestLogout();
+  // //       location.reload();
+  // //     }
+  // //   }
+  // );
   if (typeof window !== "undefined") {
     const isLoggedIn = getCookie("logged_in");
     if (!isLoggedIn) {
