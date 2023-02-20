@@ -31,14 +31,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://pokeline-yuya-back.herokuapp.com/:path*",
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;
