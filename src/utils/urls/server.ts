@@ -8,7 +8,7 @@ export const API_SERVER =
 
 const serverUrl = () => {
   if (process.env.NODE_ENV === "production") {
-    return "https://pokeline-yuya.net/api/v1/";
+    return "https://pokeline-yuya-back.herokuapp.com/api/v1";
   } else {
     return API_SERVER;
   }
