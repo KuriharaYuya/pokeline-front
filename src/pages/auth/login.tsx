@@ -1,14 +1,23 @@
 import { signInWithGoogle } from "@/features/auth";
 import { loginSuccess } from "@/redux/reducers/auth";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RootState } from "@/redux/store";
 import { User } from "@/utils/types";
 import Router from "next/router";
 import { timelinePath } from "@/utils/urls/client";
 import { Alert, Snackbar } from "@mui/material";
+import axios from "axios";
 
 const Login = () => {
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(
+        "https://pokeline-yuya-back.herokuapp.com/api/v1/posts"
+      );
+      console.log(res);
+    })();
+  }, []);
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
