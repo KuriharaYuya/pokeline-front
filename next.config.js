@@ -8,14 +8,6 @@ const nextConfig = {
       "robohash.org",
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://pokeline-yuya-back.herokuapp.com/:path*",
-      },
-    ];
-  },
   async headers() {
     return [
       {
@@ -36,6 +28,14 @@ const nextConfig = {
               "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://pokeline-yuya-back.herokuapp.com/:path*",
       },
     ];
   },
