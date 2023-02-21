@@ -47,10 +47,13 @@
     margin: 1rem;
     border-radius: 1rem;
     padding: 0.5rem;
+    background-color: rgb(24, 62, 99);
+    color: #fff;
     .visitorProfile {
       border: 0.1rem solid #03a9f4;
       width: fit-content;
-      margin-left: 1rem;
+      // margin-left: 1rem;
+      margin: 0 auto;
       border-radius: 1rem;
       padding: 0.1rem;
       height: 3rem;
@@ -63,6 +66,19 @@
       span {
         line-height: 3rem;
       }
+    }
+    .msg {
+      font-size: 0.8rem;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .comment_content {
+      max-width: 80%;
+      text-align: center;
+      margin: auto;
+    }
+    .postPreView {
+      text-align: justify;
     }
   }
 }
