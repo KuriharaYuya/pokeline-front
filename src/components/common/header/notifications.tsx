@@ -45,24 +45,57 @@ const Notifications = () => {
       if (notifications.length < perPageItems) setHasMore(false);
     })();
   }, []);
-
+  const updateNotificationsToChecked = async () => {
+    const notificationIds = notifications
+      .filter((notification) => !notification.checked)
+      .map((notification) => notification.id);
+    console.log(notificationIds);
+    await apiLocalhost.put("/notifications", {
+      notification: { notification_ids: notificationIds },
+    });
+    const updatedNotifications: NotificationWithComment[] = notifications.map(
+      (notification) => {
+        return { ...notification, checked: true };
+      }
+    );
+    setNotifications(updatedNotifications);
+  };
   const handleLoadMore = async () => {
     if (!hasMore) return;
     console.log("load more");
-    const { notifications } = await apiLocalhost
+    type Prop = {
+      notifications: NotificationWithComment[];
+    };
+    const { notifications }: Prop = await apiLocalhost
       .get("/notifications", {
         params: {
           page: currentPage,
         },
       })
       .then((res) => res.data);
+    const notificationIds = notifications
+      .filter((notification) => !notification.checked)
+      .map((notification) => notification.id);
+    await apiLocalhost.put("/notifications", {
+      notification: { notification_ids: notificationIds },
+    });
+    const updatedNotifications: NotificationWithComment[] = notifications.map(
+      (notification) => {
+        return { ...notification, checked: true };
+      }
+    );
     setNotifications((prevNotifications) => [
       ...prevNotifications,
-      ...notifications,
+      ...updatedNotifications,
     ]);
     setCurrentPage(currentPage + 1);
     setHasMore(notifications.length > 0);
   };
+  useEffect(() => {
+    (async () => {
+      await updateNotificationsToChecked();
+    })();
+  }, [notificationModalOpen]);
 
   return (
     <>
