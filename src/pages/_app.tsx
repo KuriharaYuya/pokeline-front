@@ -15,7 +15,6 @@ apiLocalhost.defaults.withCredentials = true;
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const requireLoginPaths = [timelinePath];
   const blockWhenLoggedInPaths = [singUpPath, loginPath];
 
   // // apiLocalhost.interceptors.response.use(
@@ -35,13 +34,10 @@ export default function App({ Component, pageProps }: AppProps) {
   //   if (!isLoggedIn) {
   //     requestLogout();
   //   }
-
-  //   if (!isLoggedIn && requireLoginPaths.includes(router.pathname)) {
-  //     Router.push(loginPath);
-  //   } else if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
-  //     // Router.back();
-  //   }
-  // }
+  const { isLoggedIn } = store.getState().authReducer;
+  if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
+    Router.push(timelinePath);
+  }
 
   return (
     <Provider store={store}>
