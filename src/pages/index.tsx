@@ -21,6 +21,7 @@ import Comments from "@/components/timeline/comments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ScrollTop from "@/components/timeline/scrollTop";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Head from "next/head";
 
 const TimeLine = () => {
   const dispatch = useDispatch();
@@ -136,6 +137,9 @@ const TimeLine = () => {
 
   return (
     <>
+      <Head>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
       <div style={{ width: "90%", margin: "0 auto" }}>
         <ConfirmationModal
           handleClose={handleDeleteModalClose}
