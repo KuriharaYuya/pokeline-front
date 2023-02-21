@@ -25,8 +25,10 @@ export const signUpWithGoogle = async () => {
         })
         .then((res) => res.data);
       return user;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      const statusCode = error.response.status as number;
+      return statusCode;
     }
   });
 };
