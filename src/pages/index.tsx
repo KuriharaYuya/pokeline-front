@@ -25,7 +25,9 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const TimeLine = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state: RootState) => state.authReducer);
+  const { currentUser, isLoggedIn } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   const { posts, selectedPost } = useSelector(
     (state: RootState) => state.postsReducer
   );
@@ -46,6 +48,7 @@ const TimeLine = () => {
   const [commentingPost, setCommentingPost] = useState<Post | undefined>(
     undefined
   );
+
   const handleClickMessageIcon = () => {
     setCommentingPost(selectedPost.post);
   };

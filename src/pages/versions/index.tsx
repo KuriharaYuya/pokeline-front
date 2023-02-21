@@ -1,6 +1,8 @@
+import ConfirmationModal from "@/components/common/confirmationModal";
 import { fetchVersionsData } from "@/features/pokemons";
+import { RootState } from "@/redux/store";
 import { Pokemon, Version } from "@/utils/types";
-import { timelinePath } from "@/utils/urls/client";
+import { loginPath, timelinePath } from "@/utils/urls/client";
 import { apiLocalhost } from "@/utils/urls/server";
 import {
   Box,
@@ -18,6 +20,7 @@ import Image from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import styles from "../../components/versions.module.scss";
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -32,6 +35,9 @@ type Props = {
   versions: Version[];
 };
 const Index = ({ versions }: Props) => {
+  const { isLoggedIn, currentUser } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<Version | undefined>(
     undefined
@@ -51,11 +57,14 @@ const Index = ({ versions }: Props) => {
     undefined
   );
   const handleSelectPokemon = (pokemon: Pokemon) => {
+    // ポケモンを選択した場合も、ログインしていない場合はログインモーダルを表示する
+    checkLogin();
     setSelectedPokemon(pokemon);
   };
 
   const { register, handleSubmit, reset } = useForm<FieldValues>();
   const onSubmit = async (formData: any) => {
+    checkLogin();
     const { title, content } = formData as { title: string; content: string };
     const { status } = await apiLocalhost.post("/posts", {
       posts: {
@@ -72,9 +81,27 @@ const Index = ({ versions }: Props) => {
       Router.push(timelinePath);
     }
   };
+  const checkLogin = () => {
+    if (isLoggedIn && currentUser) return;
+
+    setOpenLoginModal(true);
+  };
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const handleCloseLoginModal = () => {
+    setOpenLoginModal(false);
+  };
+  const handleJumpLoginPage = () => {
+    Router.push(loginPath);
+  };
 
   return (
     <div style={{ width: "90%", margin: "0 auto" }}>
+      <ConfirmationModal
+        handleClose={handleCloseLoginModal}
+        confirmationTxt={"投稿にはログインが必要です。ログインしますか？"}
+        execFunc={handleJumpLoginPage}
+        open={openLoginModal}
+      />
       <div>
         {versions?.map((version, index) => {
           return (
@@ -167,18 +194,20 @@ const Index = ({ versions }: Props) => {
             className={styles.createPostForm}
           >
             <input
+              onClick={checkLogin}
               placeholder="Title"
               {...register("title", { required: true })}
               className={styles.createPostFormTitle}
             />
             <TextareaAutosize
+              onClick={checkLogin}
               placeholder="Description"
               {...register("content", { required: true })}
               className={styles.createPostFormContent}
             />
-            {selectedPokemon && (
+            {isLoggedIn && selectedPokemon && (
               <Button type="submit" className={styles.createPostFormSubmitBtn}>
-                Submit
+                投稿する
               </Button>
             )}
           </form>

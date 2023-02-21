@@ -18,12 +18,17 @@ import { updatePosts } from "@/redux/reducers/posts";
 import Image from "next/image";
 import { dateTimeFormat } from "@/utils/client";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ConfirmationModal from "../common/confirmationModal";
+import { loginPath } from "@/utils/urls/client";
+import Router from "next/router";
 
 const Comments = () => {
   const { selectedPost, posts } = useSelector(
     (state: RootState) => state.postsReducer
   );
-  const { currentUser } = useSelector((state: RootState) => state.authReducer);
+  const { currentUser, isLoggedIn } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const onSubmitComment = async (data: any) => {
@@ -123,11 +128,33 @@ const Comments = () => {
     setIsLoading(false);
     dispatch(updatePosts(updatedPosts));
   };
+  // ログインを促すモーダルの開閉を定義
+
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const handleCloseLoginModal = () => {
+    setOpenLoginModal(false);
+  };
+  const handleJumpLoginPage = () => {
+    Router.push(loginPath);
+  };
+  const checkLogin = () => {
+    if (!currentUser) {
+      setOpenLoginModal(true);
+    }
+  };
 
   return (
     <>
       {selectedPost.post?.comments && (
         <>
+          <ConfirmationModal
+            handleClose={handleCloseLoginModal}
+            confirmationTxt={
+              "コメントにはログインが必要です。ログインしますか？"
+            }
+            execFunc={handleJumpLoginPage}
+            open={openLoginModal}
+          />
           {selectedPost.post?.comments?.map((comment, index) => {
             return (
               <>
@@ -191,14 +218,17 @@ const Comments = () => {
         className={styles.commentFormContainer}
       >
         <TextareaAutosize
+          onClick={checkLogin}
           id="filled-basic"
           placeholder="コメント"
           minRows={3}
           {...register("comment", { required: true })}
         />
-        <button>
-          <SendIcon />
-        </button>
+        {isLoggedIn && currentUser && (
+          <button>
+            <SendIcon />
+          </button>
+        )}
       </form>
     </>
   );

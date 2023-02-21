@@ -38,13 +38,13 @@ const Header = () => {
     { name: "作品一覧", path: versionsPath },
   ];
   const [menuItems, setMenuItems] = useState<MenuItems | undefined>(appItems);
-  useEffect(() => {
-    if (isLoggedIn) {
-      setMenuItems(appItems);
-    } else {
-      setMenuItems(undefined);
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setMenuItems(appItems);
+  //   } else {
+  //     setMenuItems(undefined);
+  //   }
+  // }, [isLoggedIn]);
 
   const settings = ["Logout"];
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -143,7 +143,7 @@ const Header = () => {
                       display: { xs: "block", md: "none" },
                     }}
                   >
-                    {menuItems
+                    {appItems
                       ?.filter((item) => item.path !== pathname)
                       .map((item, index) => (
                         <MenuItem
@@ -177,7 +177,7 @@ const Header = () => {
                 Poke Line
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {menuItems?.map((item, index) => (
+                {appItems?.map((item, index) => (
                   <Button
                     key={index}
                     onClick={() => handleCloseNavMenu(item.path)}
