@@ -6,7 +6,6 @@ import {
   Card,
   Divider,
   Fab,
-  Snackbar,
   TextareaAutosize,
   TextField,
 } from "@mui/material";
@@ -208,7 +207,7 @@ const TimeLine = () => {
                           width={100}
                           height={100}
                         />
-                        <span>{post.user_name} </span>
+                        <span>{post.user_name}</span>
                       </div>
                     </Alert>
                     <div className={styles.postContainer}>
@@ -246,7 +245,7 @@ const TimeLine = () => {
             </InfiniteScroll>
           </div>
         ) : (
-          <Snackbar open={true} message="投稿がありません" />
+          <div className={styles.noPostsMsg}>投稿がありません</div>
         )}
       </div>
       <ScrollTop>
