@@ -4,9 +4,9 @@
 ## 技術Stack
 Frontend: Next.js, TypeScript
 
-Backend: Ruby on Rails (apiモード), MySQL
+Backend: Ruby on Rails (apiモード), MySQL (clearDB)
 
-Infraなど: Git, GitHub, Docker, firebase認証(jwt), AWS (ec2), vercel
+Infraなど: Git, GitHub, Docker, firebase認証(jwt), heroku, vercel
 
 外部API: poke API
 
@@ -29,5 +29,16 @@ Infraなど: Git, GitHub, Docker, firebase認証(jwt), AWS (ec2), vercel
 - 自身のコメントであれば削除することができる
 - コメントを投稿したユーザーも確認することができる
 
+### 通知機能
+- 自分以外のユーザーが自分の投稿にコメントをすると通知が発生する
+- 通知はヘッダー右上で確認することができる
+- 通知は無限スクロール型のページネーションで表示される
+- 通知のアイコンを押した瞬間、表示されている未読通知は全て既読となる
+
+### adminユーザーはアプリの使い方と開発ブログをISRで投稿できる(開発途中)
+- adminユーザーはマークダウンを用いて記事の作成ができる
+- adminユーザーが記事を投稿すると、すべてのユーザーに通知が届く
+
 ### ER図 (gem erdによって作成)
-![erd_page-0001](https://user-images.githubusercontent.com/109059044/219953787-c72384d6-ba6f-48e4-b588-6ab7a9f6b1a1.jpg)
+![erd_page-0001 (1)](https://user-images.githubusercontent.com/109059044/220365527-99756072-8d29-4da1-822a-bdbd0a75e3b2.jpg)
+
