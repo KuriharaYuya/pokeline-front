@@ -1,14 +1,13 @@
 import { signInWithGoogle } from "@/features/auth";
 import { loginSuccess } from "@/redux/reducers/auth";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RootState } from "@/redux/store";
 import { User } from "@/utils/types";
 import Router from "next/router";
 import { timelinePath } from "@/utils/urls/client";
-import { Alert, Snackbar } from "@mui/material";
-import axios from "axios";
-import { apiLocalhost } from "@/utils/urls/server";
+import { Alert, Button } from "@mui/material";
+import styles from "../../components/common/global.module.scss";
 
 const Login = () => {
   const state = useSelector((state: RootState) => state);
@@ -25,13 +24,6 @@ const Login = () => {
     }
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
   return (
     <div>
       {open && (
@@ -39,9 +31,14 @@ const Login = () => {
           <div>ユーザーが見つかりません</div>
         </Alert>
       )}
-      <button onClick={clickLoginWithGoogleHandler}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={clickLoginWithGoogleHandler}
+        className={styles.authButton}
+      >
         Googleでログインする
-      </button>
+      </Button>
     </div>
   );
 };
