@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { NotificationWithComment } from "@/utils/types";
 import { apiLocalhost } from "@/utils/urls/server";
+
 const Notifications = () => {
   const { isLoggedIn, currentUser } = useSelector(
     (state: RootState) => state.authReducer
@@ -21,21 +22,48 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState<NotificationWithComment[]>(
     []
   );
+  const perPageItems = 10;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
   useEffect(() => {
-    if (isLoggedIn) {
-      (async () => {
-        type Props = {
-          notifications: NotificationWithComment[];
-          unchecks: number;
-        };
-        const { notifications, unchecks }: Props = await apiLocalhost
-          .get("/notifications")
-          .then((res) => res.data);
-        setNotifications(notifications);
-        setUncheckNotificationsLength(unchecks);
-      })();
-    }
+    if (!isLoggedIn) return;
+    (async () => {
+      type Props = {
+        notifications: NotificationWithComment[];
+        unchecks: number;
+      };
+      const { notifications, unchecks }: Props = await apiLocalhost
+        .get("/notifications", {
+          params: {
+            page: currentPage,
+          },
+        })
+        .then((res) => res.data);
+      setNotifications(notifications);
+      setUncheckNotificationsLength(unchecks);
+      if (notifications.length < perPageItems) setHasMore(false);
+    })();
   }, []);
+
+  const handleLoadMore = async () => {
+    if (!hasMore) return;
+    console.log("load more");
+    const { notifications } = await apiLocalhost
+      .get("/notifications", {
+        params: {
+          page: currentPage,
+        },
+      })
+      .then((res) => res.data);
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      ...notifications,
+    ]);
+    setCurrentPage(currentPage + 1);
+    setHasMore(notifications.length > 0);
+  };
+
   return (
     <>
       {isLoggedIn && currentUser && (
@@ -80,6 +108,13 @@ const Notifications = () => {
                   </Card>
                 );
               })}
+              {hasMore ? (
+                <Button onClick={handleLoadMore}>load more</Button>
+              ) : (
+                <h3 style={{ textAlign: "center" }}>
+                  これ以上通知はありません
+                </h3>
+              )}
             </>
           </Modal>
         </>
