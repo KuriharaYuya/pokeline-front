@@ -43,3 +43,8 @@ Infraなど: Git, GitHub, Docker, firebase認証(jwt), heroku, vercel
 ### ER図 (gem erdによって作成)
 ![erd_page-0001 (1)](https://user-images.githubusercontent.com/109059044/220365527-99756072-8d29-4da1-822a-bdbd0a75e3b2.jpg)
 
+### インフラ構成図
+ ![infra drawio](https://user-images.githubusercontent.com/109059044/220444849-8a5bfa0e-e2f3-44cf-9007-6842e0679cb8.svg)
+
+
+当初はバックエンドはAWS EC2でホストしていましたが、CORSの問題が解決できず、時間も迫っていたためherokuに切り替えました。
