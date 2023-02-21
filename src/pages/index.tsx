@@ -22,10 +22,14 @@ import Comments from "@/components/timeline/comments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ScrollTop from "@/components/timeline/scrollTop";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { loginPath } from "@/utils/urls/client";
+import Router from "next/router";
 
 const TimeLine = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state: RootState) => state.authReducer);
+  const { currentUser, isLoggedIn } = useSelector(
+    (state: RootState) => state.authReducer
+  );
   const { posts, selectedPost } = useSelector(
     (state: RootState) => state.postsReducer
   );
@@ -46,8 +50,20 @@ const TimeLine = () => {
   const [commentingPost, setCommentingPost] = useState<Post | undefined>(
     undefined
   );
+  // ログインを促すモーダルの開閉を定義
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const handleCloseLoginModal = () => {
+    setOpenLoginModal(false);
+  };
+  const handleJumpLoginPage = () => {
+    Router.push(loginPath);
+  };
   const handleClickMessageIcon = () => {
-    setCommentingPost(selectedPost.post);
+    if (!isLoggedIn && currentUser === undefined) {
+      setOpenLoginModal(true);
+    } else {
+      setCommentingPost(selectedPost.post);
+    }
   };
   const handleClickEditIcon = () => {
     if (selectedPost.post === undefined) return;
@@ -168,6 +184,14 @@ const TimeLine = () => {
                   >
                     {post.id === selectedPost.post?.id && (
                       <>
+                        <ConfirmationModal
+                          handleClose={handleCloseLoginModal}
+                          confirmationTxt={
+                            "コメントにはログインが必要です。ログインしますか？"
+                          }
+                          execFunc={handleJumpLoginPage}
+                          open={openLoginModal}
+                        />
                         <ActionIcons
                           {...actionIconsFuncs}
                           createdByCurrentUser={
