@@ -11,14 +11,6 @@ import axios from "axios";
 import { apiLocalhost } from "@/utils/urls/server";
 
 const Login = () => {
-  useEffect(() => {
-    (async () => {
-      const res = await apiLocalhost.get(
-        "https://pokeline-yuya-back.herokuapp.com/api/v1/posts"
-      );
-      console.log(res);
-    })();
-  }, []);
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
