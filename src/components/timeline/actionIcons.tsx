@@ -25,7 +25,10 @@ const ActionIcons = ({
     <div className={styles.IconWrapper}>
       <IconButton
         onClick={handleClickMessageIcon}
-        sx={{ ":hover": { color: blue[500] } }}
+        sx={{
+          color: "#fff",
+          ":hover": { color: blue[500], important: "true" },
+        }}
       >
         <Badge badgeContent={commentsLength} color="primary">
           <MessageIcon />
@@ -35,13 +38,19 @@ const ActionIcons = ({
         <>
           <IconButton
             onClick={handleClickEditIcon}
-            sx={{ ":hover": { color: blue[500] } }}
+            sx={{
+              color: "#fff",
+              ":hover": { color: blue[500], important: "true" },
+            }}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             onClick={handleClickDeleteIcon}
-            sx={{ ":hover": { color: red[500] } }}
+            sx={{
+              color: "#fff",
+              ":hover": { color: red[500], important: "true" },
+            }}
           >
             <DeleteIcon />
           </IconButton>
