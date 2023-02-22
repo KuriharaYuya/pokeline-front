@@ -34,8 +34,8 @@ const Header = () => {
   const dispatch = useDispatch();
   type MenuItems = { name: string; path: string }[];
   const appItems = [
-    { name: "タイムライン", path: timelinePath },
     { name: "作品一覧", path: versionsPath },
+    { name: "タイムライン", path: timelinePath },
   ];
   const [menuItems, setMenuItems] = useState<MenuItems | undefined>(appItems);
   // useEffect(() => {
