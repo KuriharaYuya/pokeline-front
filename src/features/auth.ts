@@ -16,20 +16,21 @@ export const signUpWithGoogle = async () => {
   // googleでsignupするとfirebaseとしてはログイン扱いになってるので、tokenを取得してserverに投げる
   return getAccessToken().then(async (token) => {
     const accessToken: string = token;
-    try {
-      const { user } = await apiLocalhost
-        .post("/users", {
-          user: {
-            access_token: accessToken,
-          },
-        })
-        .then((res) => res.data);
-      return user;
-    } catch (error: any) {
-      console.log(error);
-      const statusCode = error.response.status as number;
-      return statusCode;
-    }
+
+    const data = await apiLocalhost
+      .post("/users", {
+        user: {
+          access_token: accessToken,
+        },
+      })
+      .then((res) => {
+        try {
+          return res.data.user;
+        } catch (error) {
+          return false;
+        }
+      });
+    return data;
   });
 };
 
