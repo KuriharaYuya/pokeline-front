@@ -2,9 +2,11 @@ import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import styles from "../components/common/markdown.module.scss";
 import { uploadImageToCloudStorage } from "@/libs/firebase/storage";
+import { marked } from "marked";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
+import DOMPurify from "dompurify";
 
 export const MarkdownEditor = () => {
   const [markdownValue, setMarkdownValue] = useState("Initial value");
@@ -31,13 +33,29 @@ export const MarkdownEditor = () => {
   }, []);
 
   return (
-    <SimpleMDE
-      value={markdownValue}
-      className={styles.editor}
-      onChange={onChange}
-      options={autoUploadImage}
-    />
+    <>
+      <SimpleMDE
+        value={markdownValue}
+        className={styles.editor}
+        onChange={onChange}
+        options={autoUploadImage}
+      />
+      <MarkdownPreview markdown={markdownValue} />
+    </>
   );
 };
 
 export default MarkdownEditor;
+
+type MarkdownPreviewProps = {
+  markdown: string;
+};
+const MarkdownPreview = ({ markdown }: MarkdownPreviewProps) => {
+  return (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(marked(markdown)),
+      }}
+    ></div>
+  );
+};
