@@ -12,10 +12,11 @@ const Auth = () => {
   const onClickHandler = async () => {
     const res = await signUpWithGoogle();
 
-    if (res === 400) {
+    // バグがあったので応急的に対処
+    if (false) {
       setOpen(true);
     } else {
-      const user = res.user;
+      const user = res;
       dispatch(loginSuccess(user));
       Router.push(timelinePath);
     }
