@@ -138,19 +138,19 @@ const Index = ({ versions }: Props) => {
                     );
                   })}
                 </div>
-                <p>
+                <div>
                   {version.data.generation?.regions.map((region, index) => {
                     return (
-                      <>
+                      <p key={index}>
                         {version.data.generation?.regions.length > 1 &&
                           index !== 0 && <span>&nbsp;&nbsp;</span>}
                         <span key={index} className={styles.versionName}>
                           {region?.name}
                         </span>
-                      </>
+                      </p>
                     );
                   })}
-                </p>
+                </div>
               </CardContent>
             </Card>
           );

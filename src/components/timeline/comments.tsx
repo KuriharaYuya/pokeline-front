@@ -113,7 +113,7 @@ const Comments = () => {
         params: { post_id: selectedPost.post?.id },
       })
       .then((res) => res.data);
-    if (comments.length < 10) {
+    if (comments.length === 0 || comments.length < 10) {
       setHasMore(false);
     }
     setPage(page + 1);
@@ -157,59 +157,59 @@ const Comments = () => {
           />
           {selectedPost.post?.comments?.map((comment, index) => {
             return (
-              <>
-                <Card
-                  ref={commentsEndRef}
-                  className={styles.commentCard}
-                  key={index}
-                >
-                  <div className={styles.commentUserWrapper}>
-                    <Image
-                      src={comment.user_img}
-                      alt={comment.user_name}
-                      width={100}
-                      height={100}
-                    />
-                    <span>{comment.user_name}</span>
-                    <span>{dateTimeFormat(comment.created_at)}</span>
-                  </div>
-                  {currentUser?.id === comment.user_id && (
-                    <div className={styles.menuIcon}>
-                      <Tooltip title="Open menu">
-                        <IconButton sx={{ p: 0 }} onClick={handleClick}>
-                          <MoreHorizIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        id="demo-positioned-menu"
-                        aria-labelledby="demo-positioned-button"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "left",
-                        }}
-                        transformOrigin={{
-                          vertical: "top",
-                          horizontal: "left",
-                        }}
+              <Card
+                ref={commentsEndRef}
+                className={styles.commentCard}
+                key={index}
+              >
+                <div className={styles.commentUserWrapper}>
+                  <Image
+                    src={comment.user_img}
+                    alt={comment.user_name}
+                    width={100}
+                    height={100}
+                  />
+                  <span>{comment.user_name}</span>
+                  <span>{dateTimeFormat(comment.created_at)}</span>
+                </div>
+                {currentUser?.id === comment.user_id && (
+                  <div className={styles.menuIcon}>
+                    <Tooltip title="Open menu">
+                      <IconButton sx={{ p: 0 }} onClick={handleClick}>
+                        <MoreHorizIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      id="demo-positioned-menu"
+                      aria-labelledby="demo-positioned-button"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => handleDeleteComment(comment.id)}
+                        className={styles.confirmation}
                       >
-                        <MenuItem
-                          onClick={() => handleDeleteComment(comment.id)}
-                          className={styles.confirmation}
-                        >
-                          削除する
-                        </MenuItem>
-                      </Menu>
-                    </div>
-                  )}
-                  <p>{comment.content}</p>
-                </Card>
-                {isLoading && <CircularProgress />}
-              </>
+                        削除する
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                )}
+                <p>{comment.content}</p>
+              </Card>
             );
           })}
+          <div className={styles.commentsLoader}>
+            {isLoading && hasMore && <CircularProgress />}
+          </div>
         </>
       )}
 
