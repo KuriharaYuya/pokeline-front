@@ -16,7 +16,7 @@ import {
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Router from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import styles from "../components/versions.module.scss";
@@ -91,6 +91,13 @@ const Index = ({ versions }: Props) => {
   const handleJumpLoginPage = () => {
     Router.push(loginPath);
   };
+
+  // // 30分経つとサーバーが眠るので、ここで無意味なリクエストをしてheroku Free Dynoを起動させる
+  // こうすればユーザーの待ち時間が短くなる
+  useEffect(() => {
+    // 今回はレスポンスは要らないのでawaitする必要はない
+    apiLocalhost.get("/posts");
+  }, []);
 
   return (
     <div style={{ width: "90%", margin: "0 auto" }}>
