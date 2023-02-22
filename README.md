@@ -44,7 +44,8 @@ Infraなど: Git, GitHub, Docker, firebase認証(jwt), heroku, vercel
 ![erd_page-0001 (1)](https://user-images.githubusercontent.com/109059044/220365527-99756072-8d29-4da1-822a-bdbd0a75e3b2.jpg)
 
 ### インフラ構成図
-![infra drawio](https://user-images.githubusercontent.com/109059044/220445235-a01502bb-e0b6-4a21-94a1-4a281252866d.png)
+![infra drawio (1)](https://user-images.githubusercontent.com/109059044/220507429-3b03abcd-fea0-4d12-8854-8a57e92e7967.png)
+
 
 
 
