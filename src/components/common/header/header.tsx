@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Router, { useRouter } from "next/router";
 import styles from "./header.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,19 +32,10 @@ const Header = () => {
   );
   const { pathname } = useRouter();
   const dispatch = useDispatch();
-  type MenuItems = { name: string; path: string }[];
   const appItems = [
     { name: "作品一覧", path: versionsPath },
     { name: "タイムライン", path: timelinePath },
   ];
-  const [menuItems, setMenuItems] = useState<MenuItems | undefined>(appItems);
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     setMenuItems(appItems);
-  //   } else {
-  //     setMenuItems(undefined);
-  //   }
-  // }, [isLoggedIn]);
 
   const settings = ["Logout"];
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);

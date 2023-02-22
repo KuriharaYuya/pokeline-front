@@ -17,23 +17,24 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const blockWhenLoggedInPaths = [singUpPath, loginPath];
 
-  // // apiLocalhost.interceptors.response.use(
-  // //   (response) => {
-  // //     return response;
-  // //   },
-  // //   (error) => {
-  // //     if (error.response.status === 401) {
-  // //       // 401エラーの処理
-  // //       requestLogout();
-  // //       location.reload();
-  // //     }
-  // //   }
-  // );
-  // if (typeof window !== "undefined") {
-  //   const isLoggedIn = getCookie("logged_in");
-  //   if (!isLoggedIn) {
-  //     requestLogout();
-  //   }
+  // axiosで全てのレスポンスを検証する
+  apiLocalhost.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        // 401エラーを警告するモーダルを出す
+        // jsのalertではなく、nextのalertを使う
+        const confirm = window.confirm("ログインしてください");
+        if (confirm) {
+          requestLogout();
+          Router.push(loginPath);
+        }
+      }
+    }
+  );
+
   const { isLoggedIn } = store.getState().authReducer;
   if (isLoggedIn && blockWhenLoggedInPaths.includes(router.pathname)) {
     Router.push(timelinePath);
