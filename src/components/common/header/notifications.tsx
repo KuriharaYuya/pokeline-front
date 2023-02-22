@@ -93,6 +93,7 @@ const Notifications = () => {
     (async () => {
       await updateNotificationsToChecked();
     })();
+    setUncheckNotificationsLength(0);
   }, [notificationModalOpen]);
 
   return (
