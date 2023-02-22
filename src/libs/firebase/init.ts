@@ -1,5 +1,6 @@
 import { getApps, initializeApp } from "firebase/app";
 import { GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY as string,
@@ -11,7 +12,8 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 if (!getApps().length) {
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  getStorage(app);
 }
 const provider = new GoogleAuthProvider();
 
