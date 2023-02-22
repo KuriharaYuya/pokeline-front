@@ -49,7 +49,6 @@ const Notifications = () => {
     const notificationIds = notifications
       .filter((notification) => !notification.checked)
       .map((notification) => notification.id);
-    console.log(notificationIds);
     await apiLocalhost.put("/notifications", {
       notification: { notification_ids: notificationIds },
     });
@@ -62,7 +61,6 @@ const Notifications = () => {
   };
   const handleLoadMore = async () => {
     if (!hasMore) return;
-    console.log("load more");
     type Prop = {
       notifications: NotificationWithComment[];
     };

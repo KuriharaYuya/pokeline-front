@@ -113,9 +113,12 @@ const TimeLine = () => {
     const morePosts = await apiLocalhost
       .get(`/posts?page=${page}`)
       .then((res) => res.data.posts);
+
     if (morePosts.length < 10) {
       setHasMore(false);
     }
+    if (morePosts.length === 0) return;
+
     setPage(page + 1);
     dispatch(updatePosts([...posts!, ...morePosts]));
   };
@@ -158,7 +161,9 @@ const TimeLine = () => {
                   これ以上投稿はありません
                 </h2>
               }
-              loader={<h4 style={{ textAlign: "center" }}>読み込み中</h4>}
+              loader={
+                hasMore && <h4 style={{ textAlign: "center" }}>読み込み中</h4>
+              }
             >
               {posts.map((post, index) => {
                 return (
