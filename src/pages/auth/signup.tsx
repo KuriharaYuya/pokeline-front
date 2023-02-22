@@ -13,7 +13,7 @@ const Auth = () => {
     const res = await signUpWithGoogle();
 
     // バグがあったので応急的に対処
-    if (false) {
+    if (!res) {
       setOpen(true);
     } else {
       const user = res;
