@@ -16,7 +16,7 @@ import Router from "next/router";
 const ArticleCardSmall = ({ article }: Props) => {
   const limitText = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
-      return text.substr(0, maxLength) + "...";
+      return text.slice(0, maxLength) + "...";
     }
     return text;
   };
@@ -41,7 +41,7 @@ const ArticleCardSmall = ({ article }: Props) => {
             color="text.secondary"
             style={{ wordWrap: "break-word" }}
           >
-            {limitText(article.content.repeat(30), 82)}
+            {limitText(article.content, 82)}
           </Typography>
         </CardContent>
       </CardActionArea>
