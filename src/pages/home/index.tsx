@@ -1,7 +1,10 @@
+import ArticleCardSmall from "@/components/articles/articleCardSmall";
 import { Article } from "@/utils/types";
 import { apiLocalhost } from "@/utils/urls/server";
 import { GetStaticProps } from "next";
 import React from "react";
+import styles from "../../components/articles/articles.module.scss";
+
 export const getStaticProps: GetStaticProps = async () => {
   const articles: Article | undefined = await apiLocalhost
     .get("/articles")
@@ -12,20 +15,19 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
+
 type Props = {
   articles: Article[] | undefined;
 };
+
 const index = ({ articles }: Props) => {
   return (
     <>
-      <div>
+      <div className={styles.miniCardWrapper}>
         {articles &&
           articles.length > 0 &&
           articles.map((article, index) => (
-            <p key={index}>
-              <p>タイトル: {article.title}</p>
-              <p>投稿: {article.published ? "はい" : "いいえ"}</p>
-            </p>
+            <ArticleCardSmall article={article} key={index} />
           ))}
       </div>
     </>
