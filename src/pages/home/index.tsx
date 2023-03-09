@@ -21,11 +21,11 @@ type Props = {
 };
 
 const index = ({ articles }: Props) => {
+  console.log(articles);
   return (
     <>
       <div className={styles.miniCardWrapper}>
         {articles &&
-          articles.length > 0 &&
           articles.map((article, index) => (
             <ArticleCardSmall article={article} key={index} />
           ))}
