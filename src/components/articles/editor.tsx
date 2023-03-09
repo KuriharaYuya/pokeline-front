@@ -4,7 +4,7 @@ import { RootState } from "@/redux/store";
 import { Article } from "@/utils/types";
 import { apiLocalhost } from "@/utils/urls/server";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import MdEditor from "./mdEditor";
@@ -18,8 +18,8 @@ const Editor = () => {
 
   const onSaveArticle = async (data: any, e: any) => {
     e.preventDefault();
-    const { title, genre } = data as Article;
     const updatedArticle = async () => {
+      const { title, genre } = data as Article;
       if (data.img) {
         const imgUrl = await uploadImageToCloudStorage(data.img[0]);
         return {
@@ -32,11 +32,15 @@ const Editor = () => {
         return { title, genre, content: editingArticle.article?.content };
       }
     };
-    dispatch(updateSuccess(await updatedArticle()));
+    const updatedArticleData = await updatedArticle();
+
     const { id } = editingArticle.article!;
-    apiLocalhost.put(`/articles/${id}`, {
-      article: { title, genre, content: editingArticle.article?.content },
-    });
+    const newArticle = await apiLocalhost
+      .put(`/articles/${id}`, {
+        article: updatedArticleData,
+      })
+      .then((res) => res.data.article);
+    dispatch(updateSuccess(newArticle));
     reset();
   };
 
