@@ -6,6 +6,7 @@ const nextConfig = {
       "raw.githubusercontent.com",
       "lh3.googleusercontent.com",
       "robohash.org",
+      "firebasestorage.googleapis.com",
     ],
   },
   async headers() {

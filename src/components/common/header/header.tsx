@@ -21,6 +21,7 @@ import {
   versionsPath,
   singUpPath,
   timelinePath,
+  homePath,
 } from "@/utils/urls/client";
 import { fetchLogout } from "@/features/auth";
 import { logoutSuccess } from "@/redux/reducers/auth";
@@ -35,6 +36,7 @@ const Header = () => {
   const appItems = [
     { name: "作品一覧", path: versionsPath },
     { name: "タイムライン", path: timelinePath },
+    { name: "ホーム", path: homePath },
   ];
 
   const settings = ["Logout"];
