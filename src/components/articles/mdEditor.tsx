@@ -33,7 +33,8 @@ const MdEditor = () => {
   }, []);
 
   const onChange = (value: string) => {
-    dispatch(updateSuccess({ column: "content", value }));
+    const updatedArticle = { ...article, content: value };
+    dispatch(updateSuccess(updatedArticle));
   };
   return (
     <>

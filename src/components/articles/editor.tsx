@@ -16,17 +16,16 @@ const Editor = () => {
 
   const onSaveArticle = (data: any, e: any) => {
     e.preventDefault();
-    const { title, genre, content } = data as Article;
+    const { title, genre } = data as Article;
     const updatedArticle = {
       ...editingArticle.article,
       title,
       genre,
-      content,
     };
     dispatch(updateSuccess(updatedArticle));
     const { id } = editingArticle.article!;
     apiLocalhost.put(`/articles/${id}`, {
-      article: { title, genre, content },
+      article: { title, genre, content: editingArticle.article?.content },
     });
     reset();
   };

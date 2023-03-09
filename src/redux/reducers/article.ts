@@ -22,13 +22,7 @@ const articleSlice = createSlice({
       return state;
     },
     updateSuccess: (state, action) => {
-      const { column, value }: { column: keyof Article; value: any } =
-        action.payload;
-      if (column) {
-        state.editingArticle.article![column] = value;
-      } else {
-        state.editingArticle.article = action.payload;
-      }
+      state.editingArticle.article = action.payload;
       return state;
     },
     changeEditing: (state, action) => {
