@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "../../../components/common/markdown.module.scss";
 import { Modal } from "@mui/material";
 import { useForm } from "react-hook-form";
-import MdEditor from "@/components/articles/mdEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { apiLocalhost } from "@/utils/urls/server";
-import article, {
-  createSuccess,
-  updateSuccess,
-} from "@/redux/reducers/article";
+import { createSuccess } from "@/redux/reducers/article";
 import Router from "next/router";
 import { Article } from "@/utils/types";
+import Editor from "@/components/articles/editor";
 
 export const MarkdownEditor = () => {
   const { editingArticle } = useSelector(
@@ -43,14 +40,6 @@ export const MarkdownEditor = () => {
   };
   const { register, handleSubmit, reset } = useForm();
 
-  const onSaveArticle = (data: any) => {
-    dispatch(updateSuccess(data));
-    const { id, title, genre, content } = editingArticle.article!;
-    apiLocalhost.put(`/articles/${id}`, {
-      article: { title, genre, content },
-    });
-    reset();
-  };
   return (
     <>
       <Modal open={modalOpen} style={{ width: "50%", margin: "0 auto" }}>
@@ -81,25 +70,7 @@ export const MarkdownEditor = () => {
       {!onEditing && (
         <button onClick={onCreateArticleHandler}>記事を作成する</button>
       )}
-      {onEditing && (
-        <form action="">
-          <input
-            id="filled-basic"
-            placeholder="タイトル"
-            defaultValue={editingArticle.article?.title}
-            {...register("title", { required: true })}
-          />
-          <select
-            {...register("genre", { required: true })}
-            defaultValue={editingArticle.article?.genre}
-          >
-            <option value="dev">dev</option>
-            <option value="blog">blog</option>
-          </select>
-          <MdEditor />
-          <button onClick={onSaveArticle}>保存する</button>
-        </form>
-      )}
+      {onEditing && <Editor />}
     </>
   );
 };

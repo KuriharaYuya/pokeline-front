@@ -77,4 +77,5 @@ export type Article = {
   user_img: string;
   created_at: string;
   updated_at: string;
+  published: boolean;
 };
