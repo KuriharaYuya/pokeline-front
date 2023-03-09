@@ -9,6 +9,7 @@ import { createSuccess } from "@/redux/reducers/article";
 import Router from "next/router";
 import { Article } from "@/utils/types";
 import Editor from "@/components/articles/editor";
+import { uploadImageToCloudStorage } from "@/libs/firebase/storage";
 
 export const MarkdownEditor = () => {
   const { editingArticle } = useSelector(
@@ -32,8 +33,10 @@ export const MarkdownEditor = () => {
   };
   const onSubmitCreateArticle = async (data: any) => {
     setModalOpen(false);
+    const imgUrl = await uploadImageToCloudStorage(data.img[0]);
+    const updatedData = { ...data, img: imgUrl };
     const article: Article = await apiLocalhost
-      .post("/articles", { article: data })
+      .post("/articles", { article: updatedData })
       .then((res) => res.data.article);
     dispatch(createSuccess(article));
     reset();
@@ -54,6 +57,11 @@ export const MarkdownEditor = () => {
               id="filled-basic"
               placeholder="タイトル"
               {...register("title", { required: true })}
+            />
+            <input
+              placeholder="サムネイル画像"
+              type="file"
+              {...register("img", { required: true })}
             />
             <select
               {...register("genre", { required: true })}

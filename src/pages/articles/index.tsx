@@ -16,7 +16,6 @@ type Props = {
   articles: Article[] | undefined;
 };
 const index = ({ articles }: Props) => {
-  console.log(articles);
   return (
     <>
       <div>

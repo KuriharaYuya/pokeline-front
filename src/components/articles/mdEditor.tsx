@@ -15,7 +15,7 @@ const MdEditor = () => {
     (state: RootState) => state.articleReducer
   );
   const dispatch = useDispatch();
-  const { onEditing, article } = editingArticle;
+  const { article } = editingArticle;
   const uploadImageFunction = async (file: any, onSuccess: any) => {
     // fileを受け取り、cloud storageにアップロードする
 
