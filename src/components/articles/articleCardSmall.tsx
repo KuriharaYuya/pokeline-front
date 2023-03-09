@@ -41,7 +41,7 @@ const ArticleCardSmall = ({ article }: Props) => {
             color="text.secondary"
             style={{ wordWrap: "break-word" }}
           >
-            {limitText(article.content, 82)}
+            {article.content && limitText(article.content, 82)}
           </Typography>
         </CardContent>
       </CardActionArea>
