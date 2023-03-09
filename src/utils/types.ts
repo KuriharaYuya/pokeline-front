@@ -3,6 +3,7 @@ export type User = {
   name: string;
   email: string;
   picture: string;
+  admin: boolean;
 };
 
 export type Versions = Version[] | null;
@@ -64,4 +65,16 @@ export type NotificationWithComment = {
 export type NotificationWithComments = {
   notifications: NotificationWithComment[];
   notifications_length: number;
+};
+
+export type Article = {
+  id: string;
+  title: string;
+  content: string;
+  genre: string;
+  user_id: string;
+  user_name: string;
+  user_img: string;
+  created_at: string;
+  updated_at: string;
 };

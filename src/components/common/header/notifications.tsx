@@ -42,7 +42,8 @@ const Notifications = () => {
         .then((res) => res.data);
       setNotifications(notifications);
       setUncheckNotificationsLength(unchecks);
-      if (notifications.length < perPageItems) setHasMore(false);
+      if (notifications && notifications.length < perPageItems)
+        setHasMore(false);
     })();
   }, []);
   const updateNotificationsToChecked = async () => {
