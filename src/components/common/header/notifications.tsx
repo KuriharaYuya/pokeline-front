@@ -114,32 +114,34 @@ const Notifications = () => {
             className={styles.notificationModal}
           >
             <>
-              {notifications.map((notification, index) => {
-                return (
-                  <Card key={index} className={styles.notificationWrapper}>
-                    <p>{dateTimeFormat(notification.created_at)}</p>
-                    <p className={styles.msg}>
-                      あなたの投稿にコメントがありました
-                    </p>
-                    <div className={styles.visitorProfile}>
-                      <Image
-                        width={30}
-                        height={30}
-                        src={notification.visitor_img}
-                        alt={notification.visitor_name}
-                      />
-                      <span>{notification.visitor_name}</span>
-                    </div>
-                    <p className={styles.comment_content}>
-                      {notification.comment_content}
-                    </p>
-                    <br />
-                    <div className={styles.postPreView}>
-                      {notification.post_title}
-                    </div>
-                  </Card>
-                );
-              })}
+              {notifications &&
+                notifications.length > 0 &&
+                notifications.map((notification, index) => {
+                  return (
+                    <Card key={index} className={styles.notificationWrapper}>
+                      <p>{dateTimeFormat(notification.created_at)}</p>
+                      <p className={styles.msg}>
+                        あなたの投稿にコメントがありました
+                      </p>
+                      <div className={styles.visitorProfile}>
+                        <Image
+                          width={30}
+                          height={30}
+                          src={notification.visitor_img}
+                          alt={notification.visitor_name}
+                        />
+                        <span>{notification.visitor_name}</span>
+                      </div>
+                      <p className={styles.comment_content}>
+                        {notification.comment_content}
+                      </p>
+                      <br />
+                      <div className={styles.postPreView}>
+                        {notification.post_title}
+                      </div>
+                    </Card>
+                  );
+                })}
               {hasMore ? (
                 <Button onClick={handleLoadMore}>load more</Button>
               ) : (
